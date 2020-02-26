@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jungle.wemall.db.dao.OrdersMapper">
+  <resultMap id="BaseResultMap" type="com.jungle.wemall.db.pojo.Orders">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="shop_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="box_cost" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="send_cost" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="total_money" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="discount_money" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="coupon_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="coupon_money" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="pay_money" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="pay_way" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="demand_time" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+    </constructor>
+  </resultMap>
+  <!--自定义-->
+  <resultMap type="com.jungle.wemall.db.pojo.Orders" id="resultListOrders">
+    <result property="id" column="id" />
+    <result property="orderId" column="order_id" />
+    <result property="shopId" column="shop_id"/>
+    <result property="boxCost" column="box_cost" />
+    <result property="sendCost" column="sendCost" />
+    <result property="totalMoney" column="total_money" />
+    <result property="discountMoney" column="discount_money" />
+    <result property="couponId" column="coupon_id" />
+    <result property="couponMoney" column="coupon_money" />
+    <result property="payMoney" column="pay_money" />
+    <result property="payWay" column="pay_way"/>
+    <result property="demandTime" column="demand_time" />
+    <result property="createTime" column="create_time" />
+    <result property="status" column="status" />
+    <collection property="ordersDetail" javaType="List" ofType="com.jungle.wemall.db.pojo.OrdersDetail">
+      <result property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+      <result property="orderId" column="order_id"/>
+      <result property="shopId" column="shop_id"/>
+      <result property="shopname" column="shopname" />
+      <result property="foodId" column="food_id" />
+      <result property="title" column="title" />
+      <result property="cover" column="cover" />
+      <result property="originPrice" column="origin_price" />
+      <result property="sellPrice" column="sell_price" />
+      <result property="discountMoney" column="discount_money" />
+      <result property="number" column="number" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, user_id, shop_id, box_cost, send_cost, total_money, discount_money, 
+    coupon_id, coupon_money, pay_money, pay_way, demand_time, create_time, status
+  </sql>
+  <select id="listOrders" parameterType="java.lang.Integer" resultMap="resultListOrders">
+    select
+    a.*, b.*
+    from orders a, orders_detail b where  a.order_id = b.order_id
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jungle.wemall.db.pojo.Orders">
+    insert into orders (id, order_id, user_id, 
+      shop_id, box_cost, send_cost, 
+      total_money, discount_money, coupon_id, 
+      coupon_money, pay_money, pay_way, 
+      demand_time, create_time, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{shopId,jdbcType=INTEGER}, #{boxCost,jdbcType=DECIMAL}, #{sendCost,jdbcType=DECIMAL}, 
+      #{totalMoney,jdbcType=DECIMAL}, #{discountMoney,jdbcType=DECIMAL}, #{couponId,jdbcType=VARCHAR}, 
+      #{couponMoney,jdbcType=DECIMAL}, #{payMoney,jdbcType=DECIMAL}, #{payWay,jdbcType=TINYINT}, 
+      #{demandTime,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
+  </insert>
+  <!--自定义-->
+  <insert id="insertByMap" parameterType="java.util.Map">
+    insert into orders (order_id, user_id,
+      total_money, discount_money, pay_money, pay_way, status
+      )
+    values (#{order.orderId,jdbcType=VARCHAR}, #{order.userId,jdbcType=INTEGER},
+      #{order.totalMoney,jdbcType=DECIMAL}, #{order.discountMoney,jdbcType=DECIMAL},
+      #{order.payMoney,jdbcType=DECIMAL}, #{order.payWay,jdbcType=TINYINT},
+      #{order.status,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.Orders">
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="boxCost != null">
+        box_cost,
+      </if>
+      <if test="sendCost != null">
+        send_cost,
+      </if>
+      <if test="totalMoney != null">
+        total_money,
+      </if>
+      <if test="discountMoney != null">
+        discount_money,
+      </if>
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="couponMoney != null">
+        coupon_money,
+      </if>
+      <if test="payMoney != null">
+        pay_money,
+      </if>
+      <if test="payWay != null">
+        pay_way,
+      </if>
+      <if test="demandTime != null">
+        demand_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="boxCost != null">
+        #{boxCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sendCost != null">
+        #{sendCost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMoney != null">
+        #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="discountMoney != null">
+        #{discountMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="couponId != null">
+        #{couponId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponMoney != null">
+        #{couponMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payMoney != null">
+        #{payMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payWay != null">
+        #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="demandTime != null">
+        #{demandTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jungle.wemall.db.pojo.Orders">
+    update orders
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="boxCost != null">
+        box_cost = #{boxCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sendCost != null">
+        send_cost = #{sendCost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMoney != null">
+        total_money = #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="discountMoney != null">
+        discount_money = #{discountMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponMoney != null">
+        coupon_money = #{couponMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payMoney != null">
+        pay_money = #{payMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="payWay != null">
+        pay_way = #{payWay,jdbcType=TINYINT},
+      </if>
+      <if test="demandTime != null">
+        demand_time = #{demandTime,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jungle.wemall.db.pojo.Orders">
+    update orders
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      box_cost = #{boxCost,jdbcType=DECIMAL},
+      send_cost = #{sendCost,jdbcType=DECIMAL},
+      total_money = #{totalMoney,jdbcType=DECIMAL},
+      discount_money = #{discountMoney,jdbcType=DECIMAL},
+      coupon_id = #{couponId,jdbcType=VARCHAR},
+      coupon_money = #{couponMoney,jdbcType=DECIMAL},
+      pay_money = #{payMoney,jdbcType=DECIMAL},
+      pay_way = #{payWay,jdbcType=TINYINT},
+      demand_time = #{demandTime,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
