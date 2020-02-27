@@ -4,6 +4,8 @@ import com.jungle.wemall.common.notify.NotifyService;
 import com.jungle.wemall.common.notify.SmsResult;
 import com.jungle.wemall.common.service.CaptchaCodeManager;
 import com.jungle.wemall.common.util.CharUtil;
+import com.jungle.wemall.db.pojo.User;
+import com.jungle.wemall.db.service.UserService;
 import com.jungle.wemall.db.util.FastJsonUtil;
 import com.jungle.wemall.wx.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class WxAuthController {
     @Autowired
     private NotifyService notifyService;
-
+    @Autowired
+    private UserService userService;
     /**
      * 获取验证码
      * @param body
@@ -50,15 +53,23 @@ public class WxAuthController {
         if(null == code){
             return ResponseUtil.fail(1001, "验证码已过期");
         }
-        System.out.println(captcha != code);
-        System.out.println(captcha.equals(code));
-        System.out.println(!captcha.equals(code));
-        System.out.println(!(captcha.equals(code)));
         if(!captcha.equals(code)){
             return ResponseUtil.fail(1002, "验证码输入错误！");
         }
         if(captcha.equals(code)){
             CaptchaCodeManager.removeCaptcha(mobile);
+            //将电话号码转为十六进制作为id
+            /*String hexId = Integer.toHexString(Integer.parseInt(mobile));
+            User user = userService.findUserById(Integer.parseInt(hexId));
+            if(null != user){
+
+            }else{
+                User userInfo = new User();
+                userInfo.setId(10001);
+                userInfo.setMobile("198789197915");
+                int result = userService.insert(userInfo);
+            }
+            System.out.println(hexId);*/
             return ResponseUtil.ok();
         }
         return ResponseUtil.fail();

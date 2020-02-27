@@ -35,7 +35,7 @@
     <result property="payWay" column="pay_way"/>
     <result property="demandTime" column="demand_time" />
     <result property="createTime" column="create_time" />
-    <result property="status" column="status" />
+    <result property="status" column="status"/>
     <collection property="ordersDetail" javaType="List" ofType="com.jungle.wemall.db.pojo.OrdersDetail">
       <result property="id" column="id" javaType="int" jdbcType="INTEGER"/>
       <result property="orderId" column="order_id"/>

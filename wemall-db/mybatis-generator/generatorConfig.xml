@@ -100,7 +100,12 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>-->
-        <table tableName="user_Address" domainObjectName="UserAddress"
+        <!--<table tableName="user_Address" domainObjectName="UserAddress"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
+        <table tableName="shop_info" domainObjectName="ShopInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

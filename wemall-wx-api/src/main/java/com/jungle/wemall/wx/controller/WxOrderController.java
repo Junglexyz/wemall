@@ -26,4 +26,10 @@ public class WxOrderController {
         int result = ordersService.submitOrder(body);
         return ResponseUtil.ok();
     }
+
+    @PostMapping("/list")
+    public Object listOrders(){
+        List<Orders> list = ordersService.listOrders();
+        return ResponseUtil.ok(list);
+    }
 }

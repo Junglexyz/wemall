@@ -31,11 +31,11 @@ public class Orders {
 
     private Integer createTime;
 
-    private Byte status;
+    private char status;
 
     private List<OrdersDetail> ordersDetail;
 
-    public Orders(Integer id, String orderId, Integer userId, Integer shopId, Long boxCost, Long sendCost, Long totalMoney, Long discountMoney, String couponId, Long couponMoney, Long payMoney, Byte payWay, Integer demandTime, Integer createTime, Byte status) {
+    public Orders(Integer id, String orderId, Integer userId, Integer shopId, Long boxCost, Long sendCost, Long totalMoney, Long discountMoney, String couponId, Long couponMoney, Long payMoney, Byte payWay, Integer demandTime, Integer createTime, char status) {
         this.id = id;
         this.orderId = orderId;
         this.userId = userId;
@@ -53,7 +53,7 @@ public class Orders {
         this.status = status;
     }
 
-    public Orders(Integer id, String orderId, Integer userId, Integer shopId, Long boxCost, Long sendCost, Long totalMoney, Long discountMoney, String couponId, Long couponMoney, Long payMoney, Byte payWay, Integer demandTime, Integer createTime, Byte status, List<OrdersDetail> ordersDetail) {
+    public Orders(Integer id, String orderId, Integer userId, Integer shopId, Long boxCost, Long sendCost, Long totalMoney, Long discountMoney, String couponId, Long couponMoney, Long payMoney, Byte payWay, Integer demandTime, Integer createTime, char status, List<OrdersDetail> ordersDetail) {
         this.id = id;
         this.orderId = orderId;
         this.userId = userId;
@@ -196,11 +196,11 @@ public class Orders {
         this.createTime = createTime;
     }
 
-    public Byte getStatus() {
+    public char getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(char status) {
         this.status = status;
     }
 
