@@ -1,0 +1,22 @@
+<!--pages/checkout/result/result.wxml-->
+<view class="container">
+  <view class="tip">
+    <view class="tip-item" wx:if="{{status == 1}}">
+      <image src="/images/pay-success.png" class="tip-img"></image>
+      <view class="tip-text">支付成功</view>
+      <view class="money">￥{{payMoney}}</view>
+      <view class="btn-box">
+        <view class="btn btn-color" bindtap="goback">返回主页</view>
+        <view class="btn" bindtap="goOrder">查看订单</view>
+      </view>
+    </view>
+    <view class="tip-item" wx:if="{{status == 0}}">
+      <image src="/images/pay-fail.png" class="tip-img"></image>
+      <view class="tip-text">支付失败</view>
+      <view class="btn-box">
+        <view class="btn btn-color" bindtap="goback">返回主页</view>
+        <view class="btn" bindtap="pay">继续支付</view>
+      </view>
+    </view>
+  </view>
+</view>

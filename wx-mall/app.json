@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/goods/goods",
+    "pages/goods/detail/detail",
+    "pages/goods/search/search",
+    "pages/ucenter/shopInfo/shopInfo",
+    "pages/ucenter/coupon/coupon",
+    "pages/ucenter/balance/detail/detail",
+    "pages/ucenter/balance/balance",
+    "pages/order/order",
+    "pages/ucenter/ucenter",
+    "pages/auth/accountLogin/accountLogin",
+    "pages/auth/noLogin/noLogin",
+    "pages/checkout/checkout",
+    "pages/checkout/result/result",
+    "pages/address/address",
+    "pages/address/address/create"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "双安文承维生活超市+",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "backgroundColor": "#fafafa",
+    "borderStyle": "white",
+    "selectedColor": "#108ee9",
+    "color": "#8a8a8a",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/images/home.png",
+        "selectedIconPath": "/images/home@selected.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "iconPath": "/images/order.png",
+        "selectedIconPath": "/images/order@selected.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/ucenter/ucenter",
+        "iconPath": "/images/my.png",
+        "selectedIconPath": "/images/my@selected.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

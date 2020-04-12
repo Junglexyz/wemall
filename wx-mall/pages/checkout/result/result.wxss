@@ -1,0 +1,43 @@
+/* pages/checkout/result/result.wxss */
+.tip{
+  width: 100%;
+  margin-top: 40rpx
+}
+.tip-item{
+  display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+}
+.tip-img{
+  width: 168rpx;
+  height: 168rpx
+}
+.tip-text{
+  padding: 25rpx
+}
+.money{
+  font-size: 45rpx;
+  padding: 10rpx
+}
+.btn-box{
+  display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-around;
+	align-items: center;
+  width: 100%;
+  margin-top: 50rpx
+}
+.btn{
+  padding: 20rpx;
+  display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+  border: 2rpx solid #ccc;
+  border-radius: 10rpx
+}
+.btn-color{
+  background: #108ee9;
+  color: #fff
+}

@@ -1,0 +1,102 @@
+/* pages/ucenter/shopInfo/shopInfo.wxss */
+.container{
+	padding: 20rpx;
+	background: #f7f7f7
+}
+.header{
+	width: 100%;
+	padding: 20rpx;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	box-sizing: border-box;
+	border-bottom: 4rpx #ccc dashed
+}
+.header-left{
+	/*display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;*/
+}
+.shop-main{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+}
+.shop-name{
+	padding-left: 20rpx;
+}
+.wechat-img{
+	width: 68rpx;
+	height: 68rpx
+}
+.shop-logo{
+	width: 128rpx;
+	height: 128rpx;
+	border-radius: 50%
+}
+.header-right{
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-around;
+	align-items: center;
+	font-size: 25rpx
+}
+.body{
+	width: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	font-size: 25rpx
+}
+.small-img{
+	width: 50rpx;
+	height: 50rpx;
+	padding-right: 20rpx 
+}
+.item{
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	padding: 20rpx;
+	width: 100%
+}
+.remark-text{
+	padding: 30rpx;
+	width: 100%;
+	background: #fff;
+	border: 2rpx #ccc dashed
+}
+.photo{
+	height: 700rpx;
+	padding: 20rpx;
+}
+
+.wechat{
+	position: relative;
+}
+.cus{
+  position: absolute;
+  width: 88rpx;
+  height: 78rpx;
+  /* border-radius: 50%; */
+  padding: 25rpx;
+  right: 25rpx
+}
+.cus-btn{
+  height: 78rpx;
+  width: 88rpx;
+  z-index: 100;
+  opacity: 0;
+  position: absolute
+}
+.cus-img{
+  width: 70rpx;
+  height: 70rpx;
+  padding-left: 10rpx 
+}
+.cus-text{
+  font-size: 22rpx;
+}

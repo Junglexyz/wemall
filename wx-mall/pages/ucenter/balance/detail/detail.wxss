@@ -1,0 +1,30 @@
+/* pages/ucenter/balance/detail/detail.wxss */
+.container{
+  padding: 10rpx
+}
+.balance{
+  padding: 10rpx;
+  margin-bottom: 10rpx;
+  border-bottom: 2rpx solid #ccc
+}
+.top{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx;
+  font-size: 40rpx;
+  color: #232332
+}
+.bottom{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx;
+  color: #454545;
+  font-size: 30rpx
+}
+.plus{
+  color: #f0942c
+}

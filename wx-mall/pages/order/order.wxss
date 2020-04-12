@@ -1,0 +1,140 @@
+/* pages/order/order.wxss */
+.container{
+	padding: 20rpx;
+	background: #f7f7f7;
+	width: 100%
+}
+.empty{
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	padding-top: 300rpx;
+	width: 100%
+}
+.nothing-img{
+  width: 388rpx;
+  height: 388rpx
+}
+.nothing-text{
+  padding-top: 30rpx
+}
+.login-btn{
+  margin-top: 30rpx;
+  padding: 20rpx 40rpx;
+  background: #108ee9;
+  border-radius: 10rpx
+}
+.status{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-around;
+	height: 60rpx
+}
+.status-item{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	height: 60rpx;
+	width:25%;
+	position: relative;
+}
+.status-tip{
+	position: absolute;
+	height: 40rpx;
+	width: 40rpx;
+	right: 0rpx;
+	top: -10rpx;
+	background: rgba(16, 142, 233, 0.1);
+	border-radius: 50%;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+  padding: 3rpx
+}
+.current-status{
+	color: #108ee9;
+	border-bottom: 5rpx #108ee9 solid
+}
+
+.order-list{
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	background: #fff;
+	padding: 20rpx;
+	margin-bottom: 20rpx
+}
+.order-infos{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 2rpx #aaa solid;
+	padding: 5rpx 5rpx 10rpx 5rpx
+}
+.orders{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	padding: 10rpx;
+	color: #454545;
+	font-size: 25rpx
+}
+.order-time{
+  font-size: 28rpx;
+  color: #8a8a8a
+}
+.fold{
+  display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+  width:100%
+}
+.fold-box{
+  border: 1rpx #8a8a8a solid;
+  font-size: 25rpx;
+  padding: 3rpx 5rpx 3rpx 5rpx;
+  border-radius: 5rpx
+}
+.fold-img{
+  width: 25rpx;
+  height: 25rpx
+}
+.total{
+	border-top: 2rpx #aaa dashed;
+	color: #3a3a3a;
+	font-size: 30rpx;
+	margin-top:30rpx;
+	padding-top: 20rpx;
+  display: flex;
+	flex-flow: column nowrap;
+  align-items: flex-end
+}
+.cancel-btn{
+  display: flex;
+	flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 5rpx;
+  border-radius: 5rpx;
+  color: #e9106a;
+  background: #e9106a5b;
+  margin: 10rpx 0 10rpx 0
+}
+.pay-btn{
+  display: flex;
+	flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 5rpx;
+  border-radius: 5rpx;
+  color: #108ee9;
+  background: #108fe954
+}
+.packup-code{
+  color: #111111;
+  font-size: 40rpx;
+  padding: 10rpx
+}

@@ -1,0 +1,44 @@
+<!--pages/ucenter/shopInfo/shopInfo.wxml-->
+<view class="container">
+	<view class="header">
+		<view class="header-left">
+			<view class="shop-main">
+				<image class="shop-logo" src="{{shopInfo.logoImg}}" mode="scaleToFill"></image>
+				<view class="shop-name">{{shopInfo.shopname}}</view>
+			</view>
+		</view>
+		<view class="header-right">
+			<!-- <image class="wechat-img" src="/images/wechat.png" mode="scaleToFill"></image> -->
+			<view class="cus">
+		      <button open-type="contact" class="cus-btn"></button>
+		      <image class="cus-img" src="/images/wechat.png"></image>
+          <view class="cus-text">联系商家</view>
+		    </view>
+		</view>
+	</view>
+	<view class="body">
+		<view class="address item">
+			<image class="small-img" src="/images/address.png" mode="scaleToFill"></image>
+			<view class="address-text">{{shopInfo.address}}</view>
+		</view>
+		<view class="tel item" bindtap="makePhoneCall">
+			<image class="small-img" src="/images/tel.png" mode="scaleToFill"></image>
+			<view class="tel-text">{{shopInfo.contactMobile}}</view>
+		</view>
+		<view class="time item">
+			<image class="small-img" src="/images/clock.png" mode="scaleToFill"></image>
+			<view class="">早{{shopInfo.beginTime}}-晚{{shopInfo.endTime}}</view>
+		</view>
+		<view class="remark item">
+			<image class="small-img" src="/images/order.png" mode="scaleToFill"></image>
+			<view class="">简介</view>
+		</view>
+		<view class="remark-text">主营:烟酒副食干货</view>
+		<view class="out-img item">
+			<image class="small-img" src="/images/photo.png" mode="scaleToFill"></image>
+			<view class="">店铺照片</view>
+		</view> 
+		<image class="photo" src="{{shopInfo.storeImg}}" mode="scaleToFill"></image>
+		<image class="photo" src="{{shopInfo.instoreImg}}" mode="scaleToFill"></image>
+	</view>
+</view>

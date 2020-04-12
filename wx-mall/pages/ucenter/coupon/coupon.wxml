@@ -1,0 +1,40 @@
+<!--pages/ucenter/coupon/coupon.wxml-->
+<view class="container">
+  <view class="my-coupons">
+    <view class="my-coupons-title">我的优惠券</view>
+    <view class="nothing" wx:if="{{myCoupons.length == 0}}">
+      <image src="/images/nothing.png" class="nothing-img"></image>
+      <view class="noting-text">暂无可用优惠券</view>
+    </view>
+    <view class="my-coupon" wx:for="{{myCoupons}}" wx:for-item="myCoupon" wx:key="myCoupon">
+      <view class="my-coupon-left">￥{{myCoupon.discountMoney}}</view>
+      <view class="my-coupon-right">
+        <view class="my-coupon-title">{{myCoupon.title}}</view>
+        <view class="my-coupon-target">满{{myCoupon.targetMoney}}可用</view>
+        <view class="my-coupon-deadline">有效期至:{{myCoupon.endTime}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="my-coupons-title">限时领取</view>
+	<view class="coupons">
+    <view class="nothing" wx:if="{{coupons.length == 0}}">
+      <image src="/images/nothing.png" class="nothing-img"></image>
+      <view class="noting-text">暂无可领取优惠券</view>
+    </view>
+		<view class="coupon" wx:for="{{coupons}}" wx:for-item="coupon" wx:key="coupon">
+			<view class="base-coupon" >
+				<view class="coupon-left" bindtap="acceptCoupon" data-couponId="{{coupon.couponId}}" data-endTime="{{coupon.endTime}}" data-index="{{index}}">
+			      <view class="coupon-left-text">
+			        立即领取
+			      </view>
+			    </view>
+			    <view class="coupon-right">
+			      <view class="discount-money">￥{{coupon.discountMoney}}</view>
+			      <view class="target-money">满{{coupon.targetMoney}}可用</view>
+			      <view class="coupon-title">{{coupon.title}}</view>
+			      <view class="coupon-time">有效期至:{{coupon.endTime}}</view>
+			    </view>
+			</view>
+		</view>
+	</view>
+</view>
