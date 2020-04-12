@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jungle.wemall.db.dao.ShopInfoMapper">
+  <resultMap id="BaseResultMap" type="com.jungle.wemall.db.pojo.ShopInfo">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="shop_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="tag" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="shopname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="contact_man" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="contact_mobile" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cateid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="begin_time" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="end_time" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="store_img" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="instore_img" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="logo_img" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="longitude" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="latitude" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="province" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="city" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="district" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="street" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="mobile" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="images" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="notice" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="score" javaType="java.lang.Float" jdbcType="REAL" />
+      <arg column="send_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="box_cost" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="send_cost" javaType="java.lang.Long" jdbcType="DECIMAL" />
+      <arg column="floor_send_cost" javaType="java.lang.Long" jdbcType="DECIMAL" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, shop_id, tag, shopname, contact_man, contact_mobile, cateid, begin_time, end_time, 
+    store_img, instore_img, logo_img, longitude, latitude, province, city, district, 
+    address, street, mobile, email, images, notice, score, send_time, box_cost, send_cost, 
+    floor_send_cost
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jungle.wemall.db.pojo.ShopInfo">
+    insert into shop_info (id, shop_id, tag, 
+      shopname, contact_man, contact_mobile, 
+      cateid, begin_time, end_time, 
+      store_img, instore_img, logo_img, 
+      longitude, latitude, province, 
+      city, district, address, 
+      street, mobile, email, 
+      images, notice, score, 
+      send_time, box_cost, send_cost, 
+      floor_send_cost)
+    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
+      #{shopname,jdbcType=VARCHAR}, #{contactMan,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
+      #{cateid,jdbcType=INTEGER}, #{beginTime,jdbcType=INTEGER}, #{endTime,jdbcType=INTEGER}, 
+      #{storeImg,jdbcType=VARCHAR}, #{instoreImg,jdbcType=VARCHAR}, #{logoImg,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{street,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{images,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, 
+      #{sendTime,jdbcType=VARCHAR}, #{boxCost,jdbcType=DECIMAL}, #{sendCost,jdbcType=DECIMAL}, 
+      #{floorSendCost,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.ShopInfo">
+    insert into shop_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="shopname != null">
+        shopname,
+      </if>
+      <if test="contactMan != null">
+        contact_man,
+      </if>
+      <if test="contactMobile != null">
+        contact_mobile,
+      </if>
+      <if test="cateid != null">
+        cateid,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="storeImg != null">
+        store_img,
+      </if>
+      <if test="instoreImg != null">
+        instore_img,
+      </if>
+      <if test="logoImg != null">
+        logo_img,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="street != null">
+        street,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="images != null">
+        images,
+      </if>
+      <if test="notice != null">
+        notice,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="sendTime != null">
+        send_time,
+      </if>
+      <if test="boxCost != null">
+        box_cost,
+      </if>
+      <if test="sendCost != null">
+        send_cost,
+      </if>
+      <if test="floorSendCost != null">
+        floor_send_cost,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null">
+        #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMan != null">
+        #{contactMan,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="cateid != null">
+        #{cateid,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=INTEGER},
+      </if>
+      <if test="storeImg != null">
+        #{storeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="instoreImg != null">
+        #{instoreImg,jdbcType=VARCHAR},
+      </if>
+      <if test="logoImg != null">
+        #{logoImg,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null">
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null">
+        #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=REAL},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="boxCost != null">
+        #{boxCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sendCost != null">
+        #{sendCost,jdbcType=DECIMAL},
+      </if>
+      <if test="floorSendCost != null">
+        #{floorSendCost,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jungle.wemall.db.pojo.ShopInfo">
+    update shop_info
+    <set>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null">
+        shopname = #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMan != null">
+        contact_man = #{contactMan,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="cateid != null">
+        cateid = #{cateid,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=INTEGER},
+      </if>
+      <if test="storeImg != null">
+        store_img = #{storeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="instoreImg != null">
+        instore_img = #{instoreImg,jdbcType=VARCHAR},
+      </if>
+      <if test="logoImg != null">
+        logo_img = #{logoImg,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="images != null">
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null">
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=REAL},
+      </if>
+      <if test="sendTime != null">
+        send_time = #{sendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="boxCost != null">
+        box_cost = #{boxCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sendCost != null">
+        send_cost = #{sendCost,jdbcType=DECIMAL},
+      </if>
+      <if test="floorSendCost != null">
+        floor_send_cost = #{floorSendCost,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jungle.wemall.db.pojo.ShopInfo">
+    update shop_info
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      tag = #{tag,jdbcType=VARCHAR},
+      shopname = #{shopname,jdbcType=VARCHAR},
+      contact_man = #{contactMan,jdbcType=VARCHAR},
+      contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      cateid = #{cateid,jdbcType=INTEGER},
+      begin_time = #{beginTime,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=INTEGER},
+      store_img = #{storeImg,jdbcType=VARCHAR},
+      instore_img = #{instoreImg,jdbcType=VARCHAR},
+      logo_img = #{logoImg,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      street = #{street,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      images = #{images,jdbcType=VARCHAR},
+      notice = #{notice,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
+      send_time = #{sendTime,jdbcType=VARCHAR},
+      box_cost = #{boxCost,jdbcType=DECIMAL},
+      send_cost = #{sendCost,jdbcType=DECIMAL},
+      floor_send_cost = #{floorSendCost,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
