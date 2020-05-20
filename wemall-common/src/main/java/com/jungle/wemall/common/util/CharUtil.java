@@ -16,7 +16,7 @@ public class CharUtil {
     }
 
     public static String getRandomNum(Integer num) {
-        String base = "0123456789";
+        String base = "1123456789";
         Random random = new Random();
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < num; i++) {

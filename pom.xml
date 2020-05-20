@@ -67,14 +67,63 @@
         </dependency>
     </dependencies>
 
+    <!--<build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                &lt;!&ndash;<configuration>
+                    <fork>true</fork>
+                </configuration>&ndash;&gt;
+                <configuration>
+                    <mainClass>com.jungle.wemall.all</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <configuration>
+                            <executable>true</executable>
+                            <classifier>exec</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    &lt;!&ndash;<compilerArguments>
+                        &lt;!&ndash; 是否输出所有的编译信息（包括类的加载等）&ndash;&gt;
+                        &lt;!&ndash;<verbose />&ndash;&gt;
+                        &lt;!&ndash; 解决maven命令编译报错，因为rt.jar 和jce.jar在jre的lib下面，不在jdk的lib下面，
+                        导致maven找不到（java7以后会出现这个问题），将这2个jar包拷贝到jdk的lib下面估计也好使&ndash;&gt;
+                        <bootclasspath>${java.home}\lib\rt.jar;${java.home}\lib\jce.jar</bootclasspath>
+                    </compilerArguments>&ndash;&gt;
+                </configuration>
+            </plugin>
+            &lt;!&ndash;
+             用于将应用打成可直接运行的jar（该jar就是用于生产环境中的jar） 值得注意的是，如果没有引用spring-boot-starter-parent做parent，
+                       且采用了上述的第二种方式，这里也要做出相应的改动
+             &ndash;&gt;
+            &lt;!&ndash;<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    &lt;!&ndash;fork :  如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart &ndash;&gt;
+                    <fork>true</fork>
+                </configuration>
+            </plugin>&ndash;&gt;
+        </plugins>
+    </build>-->
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <fork>true</fork>
-                </configuration>
                 <executions>
                     <execution>
                         <id>repackage</id>
@@ -94,19 +143,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!--
-             用于将应用打成可直接运行的jar（该jar就是用于生产环境中的jar） 值得注意的是，如果没有引用spring-boot-starter-parent做parent，
-                       且采用了上述的第二种方式，这里也要做出相应的改动
-             -->
-            <!--<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    &lt;!&ndash;fork :  如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart &ndash;&gt;
-                    <fork>true</fork>
-                </configuration>
-            </plugin>-->
         </plugins>
     </build>
-
 </project>

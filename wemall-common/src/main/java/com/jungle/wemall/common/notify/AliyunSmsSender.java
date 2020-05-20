@@ -22,20 +22,39 @@ public class AliyunSmsSender implements SmsSender{
         this.sender = sender;
     }
 
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
+    }
+
+    public String getSignName() {
+        return signName;
+    }
+
+    public void setSignName(String signName) {
+        this.signName = signName;
+    }
+
+    private String templateId;
+    private String signName;
+
     private IAcsClient sender;
     @Override
     public SmsResult sendVerifyCode(String phone, String param) {
-        SmsResult result = sendWithTemplate(phone, param, "立刻U", "SMS_177246215");
+        SmsResult result = sendWithTemplate(phone, param);
         return result;
     }
 
     @Override
     public SmsResult sendMessage(String phone, String param){
-        SmsResult result = sendWithTemplate(phone, param, "立刻U", "SMS_177246215");
+        SmsResult result = sendWithTemplate(phone, param);
         return result;
     }
     @Override
-    public SmsResult sendWithTemplate(String phone, String param, String signName, String templateCode) {
+    public SmsResult sendWithTemplate(String phone, String param) {
         CommonRequest request = new CommonRequest();
         request.setMethod(MethodType.POST);
         request.setDomain("dysmsapi.aliyuncs.com");
@@ -43,12 +62,11 @@ public class AliyunSmsSender implements SmsSender{
         request.setAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
         request.putQueryParameter("PhoneNumbers", phone);
-        request.putQueryParameter("SignName", signName);
-        request.putQueryParameter("TemplateCode", templateCode);
+        request.putQueryParameter("SignName", this.signName);
+        request.putQueryParameter("TemplateCode", this.templateId);
         request.putQueryParameter("TemplateParam", param);
         try {
             CommonResponse response = sender.getCommonResponse(request);
-            System.out.println(response);
             SmsResult smsResult = new SmsResult();
             smsResult.setSuccessful(true);
             smsResult.setResult(response);

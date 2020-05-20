@@ -1,3 +1,4 @@
+/*
 package com.jungle.wemall.db;
 
 import com.jungle.wemall.db.util.FastJsonUtil;
@@ -9,11 +10,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 import java.util.Map;
 
+*/
 /**
  * @description: fastJson测试
  * @author: jungle
  * @date: 2020-02-25 00:11
- */
+ *//*
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FastJsonUtilTest {
@@ -38,3 +41,4 @@ public class FastJsonUtilTest {
         System.out.println(map.get("orderId"));
     }
 }
+*/

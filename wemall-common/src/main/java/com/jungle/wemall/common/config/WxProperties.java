@@ -3,6 +3,11 @@ package com.jungle.wemall.common.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @description: 微信小程序相关配置
+ * @author: jungle
+ * @create: 2020-02-05 15:45
+ */
 @Configuration
 @ConfigurationProperties(prefix = "wemall.wx")
 public class WxProperties {

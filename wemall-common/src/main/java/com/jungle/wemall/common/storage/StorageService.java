@@ -6,13 +6,12 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
- * 提供存储服务类，所有存储服务均由该类对外提供
+ * @description:提供存储服务类，所有存储服务均由该类对外提供
+ * @author Jungle
  */
 public class StorageService {
     private String active;
     private Storage storage;
-    /*@Autowired
-    private LitemallStorageService litemallStorageService;*/
 
     public String getActive() {
         return active;

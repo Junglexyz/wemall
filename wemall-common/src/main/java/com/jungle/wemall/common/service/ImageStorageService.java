@@ -28,13 +28,14 @@ public class ImageStorageService {
      */
     public String upload(MultipartFile file, String keyName){
         String key = Long.toString(stringRedisTemplate.opsForValue().increment(keyName, 1));
-        System.out.println(key);
         String fileName = file.getOriginalFilename();
         String suffix = null;
         if(fileName.endsWith(".png")){
             suffix = ".png";
         }else if (fileName.endsWith(".jpg")){
             suffix = ".jpg";
+        }else if (fileName.endsWith(".jpeg")){
+            suffix = ".jpeg";
         }else{
             return null;
         }

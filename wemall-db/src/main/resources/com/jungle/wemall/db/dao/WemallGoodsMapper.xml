@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jungle.wemall.db.dao.WemallGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.jungle.wemall.db.pojo.WemallGoods">
+    <constructor>
+      <idArg column="goods_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="goods_describe" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="origin_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="sell_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="discount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="return_cash" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="purchasing_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="purchasing_unit" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="limit_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="options" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="total_sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="month_sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="praise_rate" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="special" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_id, category_id, title, goods_describe, cover, origin_price, sell_price, discount, 
+    return_cash, purchasing_price, purchasing_unit, stock, limit_num, options, total_sales, 
+    month_sales, praise_rate, special, status, create_time, update_time
+  </sql>
+  <!--自定义-->
+  <select id="listGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wemall_goods where 1=1
+    <if test="data.categoryId != null">
+      and category_id = #{data.categoryId}
+    </if>
+    <if test="data.status != null">
+      and status = #{data.status}
+    </if>
+    limit #{data.page} , #{data.pageSize}
+  </select>
+  <!--键库存-->
+  <update id="reduceStock" parameterType="java.lang.Integer">
+    update wemall_goods
+    set
+      stock = stock - #{number,jdbcType=INTEGER}
+    where goods_id = #{goodsId,jdbcType=INTEGER} and stock >= #{number}
+  </update>
+  <!--恢复库存-->
+  <update id="addStock" parameterType="java.lang.Integer">
+    update wemall_goods
+    set
+      stock = stock + #{number,jdbcType=INTEGER}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(*) from wemall_goods
+    <if test="data.categoryId != null">
+      where category_id = #{data.categoryId}
+    </if>
+  </select>
+  <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wemall_goods where category_id = #{category_id, jdbcType=INTEGER} and status = 1
+  </select>
+  <select id="search" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wemall_goods where title like #{content}
+  </select>
+  <select id="selectSpecial" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wemall_goods where special = 1 and status = 1
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wemall_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wemall_goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertByBatch" parameterType="com.jungle.wemall.db.pojo.WemallGoods">
+    insert into wemall_goods
+    (category_id, title,origin_price, sell_price,
+    purchasing_price, purchasing_unit, stock, status
+      )
+    values
+    <foreach collection ="list" item="goodsList" index= "index" separator =",">
+    (
+      #{goodsList.categoryId,jdbcType=INTEGER}, #{goodsList.title,jdbcType=VARCHAR},
+      #{goodsList.originPrice,jdbcType=DECIMAL}, #{goodsList.sellPrice,jdbcType=DECIMAL},
+      #{goodsList.purchasingPrice,jdbcType=DECIMAL}, #{goodsList.purchasingUnit,jdbcType=CHAR},
+      #{goodsList.stock,jdbcType=INTEGER}, #{goodsList.status,jdbcType=CHAR}
+    )
+    </foreach>
+  </insert>
+  <insert id="insert" parameterType="com.jungle.wemall.db.pojo.WemallGoods">
+    insert into wemall_goods (goods_id, category_id, title, 
+      goods_describe, cover, origin_price, 
+      sell_price, discount, return_cash, 
+      purchasing_price, purchasing_unit, stock, 
+      limit_num, options, total_sales, 
+      month_sales, praise_rate, special, 
+      status, create_time, update_time
+      )
+    values (#{goodsId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{goodsDescribe,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{originPrice,jdbcType=DECIMAL}, 
+      #{sellPrice,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, #{returnCash,jdbcType=DECIMAL}, 
+      #{purchasingPrice,jdbcType=DECIMAL}, #{purchasingUnit,jdbcType=CHAR}, #{stock,jdbcType=INTEGER}, 
+      #{limitNum,jdbcType=INTEGER}, #{options,jdbcType=VARCHAR}, #{totalSales,jdbcType=INTEGER}, 
+      #{monthSales,jdbcType=INTEGER}, #{praiseRate,jdbcType=DECIMAL}, #{special,jdbcType=BIT}, 
+      #{status,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.WemallGoods">
+    insert into wemall_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="goodsDescribe != null">
+        goods_describe,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="originPrice != null">
+        origin_price,
+      </if>
+      <if test="sellPrice != null">
+        sell_price,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="returnCash != null">
+        return_cash,
+      </if>
+      <if test="purchasingPrice != null">
+        purchasing_price,
+      </if>
+      <if test="purchasingUnit != null">
+        purchasing_unit,
+      </if>
+      <if test="stock != null">
+        stock,
+      </if>
+      <if test="limitNum != null">
+        limit_num,
+      </if>
+      <if test="options != null">
+        options,
+      </if>
+      <if test="totalSales != null">
+        total_sales,
+      </if>
+      <if test="monthSales != null">
+        month_sales,
+      </if>
+      <if test="praiseRate != null">
+        praise_rate,
+      </if>
+      <if test="special != null">
+        special,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDescribe != null">
+        #{goodsDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="originPrice != null">
+        #{originPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sellPrice != null">
+        #{sellPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="returnCash != null">
+        #{returnCash,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasingPrice != null">
+        #{purchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasingUnit != null">
+        #{purchasingUnit,jdbcType=CHAR},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="limitNum != null">
+        #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="options != null">
+        #{options,jdbcType=VARCHAR},
+      </if>
+      <if test="totalSales != null">
+        #{totalSales,jdbcType=INTEGER},
+      </if>
+      <if test="monthSales != null">
+        #{monthSales,jdbcType=INTEGER},
+      </if>
+      <if test="praiseRate != null">
+        #{praiseRate,jdbcType=DECIMAL},
+      </if>
+      <if test="special != null">
+        #{special,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jungle.wemall.db.pojo.WemallGoods">
+    update wemall_goods
+    <set>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDescribe != null">
+        goods_describe = #{goodsDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="originPrice != null">
+        origin_price = #{originPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sellPrice != null">
+        sell_price = #{sellPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="returnCash != null">
+        return_cash = #{returnCash,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasingPrice != null">
+        purchasing_price = #{purchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasingUnit != null">
+        purchasing_unit = #{purchasingUnit,jdbcType=CHAR},
+      </if>
+      <if test="stock != null">
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="limitNum != null">
+        limit_num = #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="options != null">
+        options = #{options,jdbcType=VARCHAR},
+      </if>
+      <if test="totalSales != null">
+        total_sales = #{totalSales,jdbcType=INTEGER},
+      </if>
+      <if test="monthSales != null">
+        month_sales = #{monthSales,jdbcType=INTEGER},
+      </if>
+      <if test="praiseRate != null">
+        praise_rate = #{praiseRate,jdbcType=DECIMAL},
+      </if>
+      <if test="special != null">
+        special = #{special,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jungle.wemall.db.pojo.WemallGoods">
+    update wemall_goods
+    set category_id = #{categoryId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      goods_describe = #{goodsDescribe,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      origin_price = #{originPrice,jdbcType=DECIMAL},
+      sell_price = #{sellPrice,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DECIMAL},
+      return_cash = #{returnCash,jdbcType=DECIMAL},
+      purchasing_price = #{purchasingPrice,jdbcType=DECIMAL},
+      purchasing_unit = #{purchasingUnit,jdbcType=CHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      limit_num = #{limitNum,jdbcType=INTEGER},
+      options = #{options,jdbcType=VARCHAR},
+      total_sales = #{totalSales,jdbcType=INTEGER},
+      month_sales = #{monthSales,jdbcType=INTEGER},
+      praise_rate = #{praiseRate,jdbcType=DECIMAL},
+      special = #{special,jdbcType=BIT},
+      status = #{status,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+</mapper>

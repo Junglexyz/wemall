@@ -5,6 +5,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.jungle.wemall.common.notify.AliyunSmsSender;
 import com.jungle.wemall.common.notify.NotifyService;
 import com.jungle.wemall.common.notify.SmsSender;
+import com.jungle.wemall.common.notify.WxSubscribeMessageSender;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class NotifyAutoConfiguration {
 
     private final NotifyProperties properties;
+//    private Object WxSubscribeMessageSender;
 
     public NotifyAutoConfiguration(NotifyProperties properties) {
         this.properties = properties;
@@ -29,14 +31,15 @@ public class NotifyAutoConfiguration {
         NotifyProperties.AliyunSms aliyunSmsConfig = properties.getAliyunsms();
         if (aliyunSmsConfig.isEnable()) {
             notifyService.setSmsSender(aliyunSmsSender());
-            notifyService.setSmsTemplate(aliyunSmsConfig.getTemplate());
+//            notifyService.setSmsTemplate(aliyunSmsConfig.getTemplate());
         }
 
         NotifyProperties.Wx wxConfig = properties.getWx();
-        /*if (wxConfig.isEnable()) {
-            notifyService.setWxTemplateSender(wxTemplateSender());
-            notifyService.setWxTemplate(wxConfig.getTemplate());
-        }*/
+        if (wxConfig.isEnable()) {
+            notifyService.setWxSubscribeMessageSender(wxSubscribeMessageSender());
+            notifyService.setDeliverySubscribe(wxConfig.getDeliverySubscribeId());
+            notifyService.setCheckSuccess(wxConfig.getCheckoutSuccess());
+        }
         return notifyService;
     }
 
@@ -46,6 +49,12 @@ public class NotifyAutoConfiguration {
         WxTemplateSender wxTemplateSender = new WxTemplateSender();
         return wxTemplateSender;
     }*/
+
+    @Bean
+    public WxSubscribeMessageSender wxSubscribeMessageSender() {
+        WxSubscribeMessageSender wxSubscribeMessageSender = new WxSubscribeMessageSender();
+        return wxSubscribeMessageSender;
+    }
 
     /**
      * 阿里云短信服务
@@ -57,7 +66,8 @@ public class NotifyAutoConfiguration {
         AliyunSmsSender smsSender = new AliyunSmsSender();
         DefaultProfile profile = DefaultProfile.getProfile(aliyunSmsConfig.getLocation(), aliyunSmsConfig.getAccessKeyId(), aliyunSmsConfig.getSecret());
         smsSender.setSender(new DefaultAcsClient(profile));
-        System.out.println("阿里云短信Bean");
+        smsSender.setSignName(aliyunSmsConfig.getSignName());
+        smsSender.setTemplateId(aliyunSmsConfig.getTemplateId());
         return smsSender;
     }
 }

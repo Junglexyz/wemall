@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jungle.wemall.db.dao.WemallCouponAcceptMapper">
+  <resultMap id="BaseResultMap" type="com.jungle.wemall.db.pojo.WemallCouponAccept">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="coupon_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="target_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="discount_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="types" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="mobile" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, coupon_id, title, target_money, discount_money, types, mobile, status, 
+    end_time, create_time, update_time
+  </sql>
+  <!--将使用过的优惠券状态置0-->
+  <update id ="removeUsedCoupon" parameterType="java.util.Map" >
+    update wemall_coupon_accept
+    set status = '0'
+    where user_id = #{data.userId,jdbcType=INTEGER}
+    and coupon_id = #{data.couponId, jdbcType=INTEGER}
+  </update >
+  <select id="selectByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    a.id, a.user_id, a.coupon_id, b.title, b.target_money, b.discount_money,
+    a.types, a.mobile, a.status,
+    a.end_time, a.create_time, a.update_time
+    from wemall_coupon_accept a, wemall_coupon b
+    where a.user_id = #{userId,jdbcType=INTEGER}
+    and a.coupon_id = b.coupon_id
+    and b.status = 1
+  </select>
+  <select id="selectNoUsedByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    a.id, a.user_id, a.coupon_id, b.title, b.target_money, b.discount_money,
+    a.types, a.mobile, a.status,
+    a.end_time, a.create_time, a.update_time
+    from wemall_coupon_accept a, wemall_coupon b
+    where user_id = #{userId,jdbcType=INTEGER}
+    and a.coupon_id = b.coupon_id
+    and b.status = 1
+    and a.status = 1
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wemall_coupon_accept
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wemall_coupon_accept
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jungle.wemall.db.pojo.WemallCouponAccept">
+    insert into wemall_coupon_accept (id, user_id, coupon_id, 
+      title, target_money, discount_money, 
+      types, mobile, status, end_time, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{couponId,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{targetMoney,jdbcType=DECIMAL}, #{discountMoney,jdbcType=DECIMAL}, 
+      #{types,jdbcType=CHAR}, #{mobile,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.WemallCouponAccept">
+    insert into wemall_coupon_accept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="targetMoney != null">
+        target_money,
+      </if>
+      <if test="discountMoney != null">
+        discount_money,
+      </if>
+      <if test="types != null">
+        types,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="couponId != null">
+        #{couponId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="targetMoney != null">
+        #{targetMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="discountMoney != null">
+        #{discountMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="types != null">
+        #{types,jdbcType=CHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jungle.wemall.db.pojo.WemallCouponAccept">
+    update wemall_coupon_accept
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="targetMoney != null">
+        target_money = #{targetMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="discountMoney != null">
+        discount_money = #{discountMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="types != null">
+        types = #{types,jdbcType=CHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jungle.wemall.db.pojo.WemallCouponAccept">
+    update wemall_coupon_accept
+    set user_id = #{userId,jdbcType=INTEGER},
+      coupon_id = #{couponId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      target_money = #{targetMoney,jdbcType=DECIMAL},
+      discount_money = #{discountMoney,jdbcType=DECIMAL},
+      types = #{types,jdbcType=CHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

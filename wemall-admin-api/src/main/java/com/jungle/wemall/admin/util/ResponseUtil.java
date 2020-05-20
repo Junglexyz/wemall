@@ -1,6 +1,7 @@
 package com.jungle.wemall.admin.util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,25 +53,13 @@ public class ResponseUtil {
         return obj;
     }
 
-    /*public static Object okList(List list) {
+    public static Object okList(List list) {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("list", list);
-
-        if (list instanceof Page) {
-            Page page = (Page) list;
-            data.put("total", page.getTotal());
-            data.put("page", page.getPageNum());
-            data.put("limit", page.getPageSize());
-            data.put("pages", page.getPages());
-        } else {
-            data.put("total", list.size());
-            data.put("page", 1);
-            data.put("limit", list.size());
-            data.put("pages", 1);
-        }
-
-        return ok(data);
-    }*/
+        data.put("errno", 0);
+        data.put("errmsg", "成功");
+        return data;
+    }
 
     /*public static Object okList(List list, List pagedList) {
         Map<String, Object> data = new HashMap<String, Object>();

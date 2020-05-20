@@ -1,5 +1,6 @@
 package com.jungle.wemall.db.util;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
@@ -63,6 +64,20 @@ public class FastJsonUtil {
         JSONObject  jsonObject = JSONObject.parseObject(body);
         if(jsonObject.containsKey(key)){
             return (Map<String, Object>)jsonObject.get(key);
+        }
+        return null;
+    }
+
+    /**
+     * 解析String返回Array
+     * @param body
+     * @param key
+     * @return
+     */
+    public static JSONArray getArray(String body, String key){
+        JSONObject  jsonObject = JSONObject.parseObject(body);
+        if(jsonObject.containsKey(key)){
+            return jsonObject.getJSONArray(key);
         }
         return null;
     }

@@ -36,7 +36,26 @@ public class NotifyProperties {
         private String accessKeyId;
         private String secret;
         private String location;
-        private List<Map<String, String>> template = new ArrayList<>();
+
+        public String getTemplateId() {
+            return templateId;
+        }
+
+        public void setTemplateId(String templateId) {
+            this.templateId = templateId;
+        }
+
+        public String getSignName() {
+            return signName;
+        }
+
+        public void setSignName(String signName) {
+            this.signName = signName;
+        }
+
+        //        private List<Map<String, String>> template = new ArrayList<>();
+        private String templateId;
+        private String signName;
 
         public boolean isEnable() {
             return enable;
@@ -69,18 +88,36 @@ public class NotifyProperties {
             this.location = location;
         }
 
-        public List<Map<String, String>> getTemplate() {
-            return template;
-        }
-
-        public void setTemplate(List<Map<String, String>> template) {
-            this.template = template;
-        }
+//        public List<Map<String, String>> getTemplate() {
+//            return template;
+//        }
+//
+//        public void setTemplate(List<Map<String, String>> template) {
+//            this.template = template;
+//        }
     }
 
     public static class Wx {
         private boolean enable;
         private List<Map<String, String>> template = new ArrayList<>();
+        private String deliverySubscribeId;
+        private String checkoutSuccess;
+
+        public String getCheckoutSuccess() {
+            return checkoutSuccess;
+        }
+
+        public void setCheckoutSuccess(String checkoutSuccess) {
+            this.checkoutSuccess = checkoutSuccess;
+        }
+
+        public String getDeliverySubscribeId() {
+            return deliverySubscribeId;
+        }
+
+        public void setDeliverySubscribeId(String deliverySubscribeId) {
+            this.deliverySubscribeId = deliverySubscribeId;
+        }
 
         public boolean isEnable() {
             return enable;

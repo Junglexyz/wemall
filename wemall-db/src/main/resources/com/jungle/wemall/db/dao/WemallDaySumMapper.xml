@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jungle.wemall.db.dao.WemallDaySumMapper">
+  <resultMap id="BaseResultMap" type="com.jungle.wemall.db.pojo.WemallDaySum">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_amount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="goods_amount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="order_amount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sum_sales" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="day_stamp" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_amount, goods_amount, order_amount, sum_sales, day_stamp, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wemall_day_sum
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wemall_day_sum
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jungle.wemall.db.pojo.WemallDaySum">
+    insert into wemall_day_sum (id, user_amount, goods_amount, 
+      order_amount, sum_sales, day_stamp, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{userAmount,jdbcType=INTEGER}, #{goodsAmount,jdbcType=INTEGER}, 
+      #{orderAmount,jdbcType=INTEGER}, #{sumSales,jdbcType=DECIMAL}, #{dayStamp,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.WemallDaySum">
+    insert into wemall_day_sum
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userAmount != null">
+        user_amount,
+      </if>
+      <if test="goodsAmount != null">
+        goods_amount,
+      </if>
+      <if test="orderAmount != null">
+        order_amount,
+      </if>
+      <if test="sumSales != null">
+        sum_sales,
+      </if>
+      <if test="dayStamp != null">
+        day_stamp,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userAmount != null">
+        #{userAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAmount != null">
+        #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null">
+        #{orderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="sumSales != null">
+        #{sumSales,jdbcType=DECIMAL},
+      </if>
+      <if test="dayStamp != null">
+        #{dayStamp,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jungle.wemall.db.pojo.WemallDaySum">
+    update wemall_day_sum
+    <set>
+      <if test="userAmount != null">
+        user_amount = #{userAmount,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAmount != null">
+        goods_amount = #{goodsAmount,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=INTEGER},
+      </if>
+      <if test="sumSales != null">
+        sum_sales = #{sumSales,jdbcType=DECIMAL},
+      </if>
+      <if test="dayStamp != null">
+        day_stamp = #{dayStamp,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jungle.wemall.db.pojo.WemallDaySum">
+    update wemall_day_sum
+    set user_amount = #{userAmount,jdbcType=INTEGER},
+      goods_amount = #{goodsAmount,jdbcType=INTEGER},
+      order_amount = #{orderAmount,jdbcType=INTEGER},
+      sum_sales = #{sumSales,jdbcType=DECIMAL},
+      day_stamp = #{dayStamp,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

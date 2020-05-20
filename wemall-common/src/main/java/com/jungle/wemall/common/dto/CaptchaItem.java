@@ -3,6 +3,7 @@ package com.jungle.wemall.common.dto;
 import java.time.LocalDateTime;
 
 /**
+ * @author Jungle
  * 验证码实体类，用于缓存验证码发送
  */
 public class CaptchaItem {

@@ -15,7 +15,7 @@ public interface SmsSender {
      * 调用阿里云短信api发送信息
      * @return
      */
-    SmsResult sendWithTemplate(String phone, String code, String signName, String templateCode);
+    SmsResult sendWithTemplate(String phone, String code);
 
 
 }

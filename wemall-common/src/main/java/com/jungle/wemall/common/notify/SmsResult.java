@@ -1,6 +1,7 @@
 package com.jungle.wemall.common.notify;
 
 /**
+ * @author Jungle
  * 发送短信的返回结果
  */
 public class SmsResult {

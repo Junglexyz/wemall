@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 缓存系统中的验证码
+ * @description : 缓存系统中的验证码
+ * @author Jungle
  */
 public class CaptchaCodeManager {
     private static ConcurrentHashMap<String, CaptchaItem> captchaCodeCache = new ConcurrentHashMap<>();
@@ -25,7 +26,7 @@ public class CaptchaCodeManager {
             if (captchaCodeCache.get(phoneNumber).getExpireTime().isAfter(LocalDateTime.now())) {
                 return false;
             } else {
-                //存在但是已过期，删掉
+                // 存在但是已过期，删掉
                 captchaCodeCache.remove(phoneNumber);
             }
         }
@@ -33,8 +34,8 @@ public class CaptchaCodeManager {
         CaptchaItem captchaItem = new CaptchaItem();
         captchaItem.setPhoneNumber(phoneNumber);
         captchaItem.setCode(code);
-        // 有效期为1分钟
-        captchaItem.setExpireTime(LocalDateTime.now().plusMinutes(1));
+        // 有效期为2分钟
+        captchaItem.setExpireTime(LocalDateTime.now().plusMinutes(2));
 
         captchaCodeCache.put(phoneNumber, captchaItem);
 
@@ -48,7 +49,7 @@ public class CaptchaCodeManager {
      * @return 验证码
      */
     public static String getCachedCaptcha(String phoneNumber) {
-        //没有这个电话记录
+        // 没有这个电话记录
         if (captchaCodeCache.get(phoneNumber) == null)
             return null;
 
@@ -61,7 +62,7 @@ public class CaptchaCodeManager {
     }
 
     /**
-     * 获取缓存的验证码
+     * 删除缓存的验证码
      *
      * @param phoneNumber 关联的电话号码
      * @return 验证码

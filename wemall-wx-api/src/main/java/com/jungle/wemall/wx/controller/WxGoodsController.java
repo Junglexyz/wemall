@@ -1,8 +1,9 @@
 package com.jungle.wemall.wx.controller;
 
-import com.jungle.wemall.db.pojo.Goods;
-import com.jungle.wemall.db.service.GoodsService;
-import com.jungle.wemall.wx.util.ResponseUtil;
+import com.jungle.wemall.common.util.FastJsonUtil;
+import com.jungle.wemall.common.util.ResponseUtil;
+import com.jungle.wemall.db.pojo.WemallGoods;
+import com.jungle.wemall.db.service.WemallGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,11 +21,24 @@ import java.util.List;
 @RequestMapping("/wx/goods")
 public class WxGoodsController {
     @Autowired
-    private GoodsService goodsService;
+    private WemallGoodsService wemallGoodsService;
 
     @PostMapping("/list")
     public Object listGoods(@RequestBody String body){
-        List<Goods> listGoods = goodsService.listGoodsByCategoryId(body);
-        return ResponseUtil.ok(listGoods);
+        List<WemallGoods> listGoods = wemallGoodsService.listGoodsByCategoryId(body);
+        if(null != listGoods){
+            return ResponseUtil.okList(listGoods);
+        }
+        return ResponseUtil.fail();
+    }
+
+    @PostMapping("/search")
+    public Object search(@RequestBody String body){
+        String content = FastJsonUtil.getString(body, "content");
+        List<WemallGoods> listGoods = wemallGoodsService.search(content);
+        if(null != listGoods){
+            return ResponseUtil.okList(listGoods);
+        }
+        return ResponseUtil.fail();
     }
 }
