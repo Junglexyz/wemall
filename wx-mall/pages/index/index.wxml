@@ -1,0 +1,46 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="ad">
+  	<swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+	    <swiper-item wx:for="{{banners}}" wx:key="banner">
+	      <image src="{{item.imgUrl}}" ></image>
+	    </swiper-item>
+	</swiper>
+	<view class="category">
+		<view class="category-item" wx:for="{{listCategory}}" wx:for-item="category" bindtap="navigateToGoods" data-index="{{index}}" data-categoryId="{{category.id}}" wx:if="{{index < 8}}" wx:key="category">
+			<image class="icon" src="{{category.picUrl}}"></image>
+			<view class="icon-title">{{category.name}}</view>
+		</view>
+    <view class="category-item" bindtap="navigateToGoods" data-index="0" data-categoryId="{{listCategory[0].id}}">
+			<image class="icon" src="/images/category-all.png"></image>
+			<view class="icon-title">全部分类</view>
+		</view>
+	</view>
+	<!--优惠券-->
+	<view class="coupon">
+		
+	</view>
+	<!--特价专区-->
+	<view class="special">
+		<view class="special-title" wx:if="{{specialGoods !=0 }}">今日·特价</view>
+		<view class="special-list">
+			<view class="special-item" wx:for="{{specialGoods}}" wx:for-item="special" wx:key="special" bindtap="navigateToGoods" data-index="0" data-categoryId="{{listCategory[0].id}}">
+				<view class="special-left">
+					<image class="special-img" src="{{special.cover}}"></image>
+				</view>
+				<view class="special-right">
+					<view class="special-name">{{special.title}}</view>
+					<view class="special-price">
+            <view class="sell-price">￥{{special.sellPrice}}</view>
+            <view class="origin-price" wx:if="{{special.originPrice != 0 && special.originPrice > special.sellPrice}}">￥{{special.originPrice}}</view>
+          </view>
+				</view>
+			</view>
+		</view>
+	</view>
+	<!--热销专区-->
+	<view class="hot">
+		
+	</view>
+  </view>
+</view>

@@ -1,0 +1,133 @@
+/* pages/ucenter/coupon/coupon.wxss */
+.container{
+	padding: 20rpx;
+	background: #f7f7f7
+}
+.my-coupons-title{
+  padding: 20rpx
+}
+.my-coupon{
+  display: flex;
+	flex-flow: row nowrap;
+  justify-content: space-around;
+	align-items: center;
+	box-sizing: border-box;
+	width: 100%;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  background:#fff
+}
+.my-coupon-left{
+  display: flex;
+	flex-flow: row nowrap;
+  justify-content: center;
+	align-items: center;
+  color: #ff0000
+}
+.my-coupon-right{
+  display: flex;
+	flex-flow: column nowrap;
+}
+.my-coupon-title{
+  font-size: 35rpx
+}
+.my-coupon-target{
+  font-size: 30rpx;
+  color: #8a8a8a
+}
+.my-coupon-deadline{
+  font-size: 30rpx;
+  color: #8a8a8a
+}
+.coupons{
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	box-sizing: border-box;
+	width: 100%;
+}
+.nothing{
+  display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+  justify-content: center;
+  background: #fff;
+  width: 100%
+}
+.nothing-img{
+  width: 388rpx;
+  height: 388rpx;
+}
+.nothing-text{
+  padding: 20rpx;
+  font-size: 40rpx;
+  color: #454545
+}
+.coupon{
+  width: 100%;
+  display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+  justify-content: center;
+  margin-bottom: 30rpx
+}
+.base-coupon {
+    width: 250px;
+    height: 100px;
+    position: relative;
+    display: flex;
+    flex-flow:row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background: radial-gradient(circle at right top, transparent 10px,  #28A4F2 0) top left / 60px 51% no-repeat,
+      radial-gradient(circle at right bottom, transparent 10px,  #28A4F2 0) bottom left /60px 51% no-repeat,
+      radial-gradient(circle at left top, transparent 10px, #eeeeee 0) top right /190px 51% no-repeat,
+      radial-gradient(circle at left bottom, transparent 10px, #eeeeee 0) bottom right /190px 51% no-repeat;
+    filter: drop-shadow(3px 3px 3px rgba(0,0,0,.3));
+  }
+  .base-coupon::before {
+    content: '';
+    height: 80px;
+    border: 1px dashed #fff;
+    position: absolute;
+    left: 60px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .coupon-left{
+    width: 60px;
+    height: 80px;
+    display: flex;
+    flex-flow:row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .coupon-left-text{
+    font-size: 35rpx;
+    width: 35rpx;
+    color: #fff
+  }
+  .coupon-right{
+    width: 190px;
+    height: 80px;
+    display: flex;
+    flex-flow:column nowrap;
+    justify-content: space-around;
+    align-items: center
+  }
+  .coupon-time{
+    font-size: 25rpx;
+    color: #8a8a8a
+  }
+  .discount-money{
+    color: #ff0000;
+    font-size: 35rpx
+  }
+  .target-money{
+    color: #ff00007e;
+    font-size: 28rpx
+  }
+  .coupon-title{
+    font-size: 30rpx
+  }

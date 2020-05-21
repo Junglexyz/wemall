@@ -1,0 +1,58 @@
+/* pages/ucenter/balance/balance.wxss */
+.content{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.header{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%
+}
+.balance-img{
+  height: 198rpx;
+  width: 198rpx
+}
+.balance-text{
+  color: #454545;
+  font-size: 30rpx;
+  padding: 10rpx;
+  margin-top: 30rpx
+}
+.balance{
+  font-size: 48rpx;
+}
+.btn{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.withdraw{
+  width: 255rpx;
+  padding: 10rpx;
+  background: #108ee9;
+  color: #fff;
+  border-radius: 10rpx;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20rpx
+}
+.detail{
+  width: 255rpx;
+  padding: 10rpx;
+  color: #108ee9;
+  background: #f7f7f7;
+  border-radius: 10rpx;
+  display: flex;
+  flex-flow: riw nowrap;
+  justify-content: center;
+  align-items: center;
+}

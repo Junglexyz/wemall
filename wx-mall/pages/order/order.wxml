@@ -1,0 +1,41 @@
+<!--pages/order/order.wxml-->
+<view class="container">
+	<view class="status">
+		<view class="status-item {{currentIndex == index ? 'current-status' : ''}}" wx:for="{{status}}" data-index="{{index}}" bindtap="status" wx:key="status">
+			{{item.value}}
+			<view class="status-tip" wx:if="{{item.number != 0}}">{{item.number}}</view>
+		</view>
+	</view>
+	<view class="empty" wx:if="{{orderList.length == 0}}">
+    <image src="/images/nothing.png" class="nothing-img"></image>
+    <text class="nothing-text">这里什么没有</text>
+    <view class="login-btn" wx:if="{{login}}" bindtap="login">登录</view>
+  </view>
+	<view class="order-list" wx:for="{{orderList}}" wx:for-item="orders" wx:for-index="orderIndex" wx:key="orderList">
+		<view class="order-infos">
+			<view class="order-status">{{orders.orderStatus}}</view>
+			<view class="order-time">{{orders.createTime}}</view>
+		</view>
+		<view class="orders" wx:for="{{orders.orderDetail}}" wx:for-item="goods" wx:if="{{index < 2 || goods.unfold}}" wx:key="goods">
+			<view class="goods-name">{{goods.title}}</view>
+			<view class="goods-amount">x{{goods.number}}</view>
+		</view>
+    <view class="fold">
+      <view class="fold-box" wx:if="{{orders.orderDetail.length > 2 && orders.fold}}" data-index="{{orderIndex}}" bindtap="unfold">展示更多<image src="/images/arrow-down.png" class="fold-img"></image></view>
+      <view class="fold-box" wx:if="{{orders.orderDetail.length > 2 && !orders.fold}}" data-index="{{orderIndex}}" bindtap="fold">点击收起<image src="/images/arrow-up.png" class="fold-img"></image></view>
+    </view>
+		<view class="total" wx:if="{{currentIndex == 1}}">
+      <view class="count-down-time">{{orders.leftTime}}分后自动取消订单</view>
+			<view class="total-amount">共{{orders.totalNumber}}件商品, 待支付￥{{orders.totalMoney}}元</view>
+      <view class="cancel-btn" bindtap="removeOrder" data-order="{{orders}}" data-index="{{orderIndex}}">取消订单</view>
+      <view class="pay-btn" bindtap="pay" data-order="{{orders}}">去支付</view>
+		</view>
+    <view class="total" wx:if="{{currentIndex == 3}}">
+			<view class="total-amount">共{{orders.totalNumber}}件商品, 已支付￥{{orders.totalMoney}}元</view>
+      <view class="packup-code" wx:if="{{orders.packupCode}}">取件码:{{orders.packupCode}}</view>
+		</view>
+    <view class="total" wx:if="{{currentIndex == 0 || currentIndex == 2}}">
+			<view class="total-amount">共{{orders.totalNumber}}件商品, 待支付￥{{orders.totalMoney}}元</view>
+		</view>
+	</view>
+</view>

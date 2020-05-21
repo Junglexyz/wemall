@@ -1,0 +1,56 @@
+/* pages/address/address.wxss */
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  box-sizing: border-box;
+} 
+.bottom{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: #f7f7f7;
+}
+.add{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	padding: 30rpx;
+	border-top: 2rpx #ccc solid; 
+}
+.small-img{ /** 小图标尺寸*/
+	width: 50rpx;
+	height: 50rpx
+}
+.address-text{
+	margin-left: 20rpx 
+}
+.address-item{
+	display: flex;
+	flex-flow:row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20rpx;
+	border-bottom: 2rpx #ccc solid;
+}
+.address{
+	color: #565656;
+	font-size: 25rpx;
+	padding-bottom: 20rpx
+}
+.defaluted{
+  color: #108fe9;
+  background: #108fe93b;
+  border: 5rpx;
+  padding: 5rpx
+}
+.user-info{
+	color: #898989;
+	font-size: 24rpx
+}
+.edit-img{
+	width: 45rpx;
+	height: 45rpx
+}

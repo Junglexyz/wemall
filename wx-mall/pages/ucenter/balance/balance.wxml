@@ -1,0 +1,12 @@
+<!--pages/ucenter/balance/balance.wxml-->
+<view class="content">
+  <view class="header">
+    <image class="balance-img" src="/images/balance.png"></image>
+    <view class="balance-text">我的余额</view>
+    <view class="balance">￥{{balance}}</view>
+  </view>
+  <view class="btn">
+    <view class="withdraw">提现</view>
+    <view class="detail">查看明细</view>
+  </view>
+</view>

@@ -1,0 +1,67 @@
+/* pages/auth/accountLogin/accountLogin.wxss */
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  box-sizing: border-box;
+}
+.content{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 30rpx;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+.form{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%;
+}
+.form-item{
+	padding-bottom: 20rpx;
+	width: 100%;
+	border-bottom: 3rpx #ccc solid;
+}
+.input{
+	padding: 20rpx;
+}
+.mobile-form{
+	display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center
+}
+.login-btn{
+	height: 80rpx;
+	width: 100%;
+	display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  background: #ccc;
+  border-radius: 8rpx;
+  margin-top: 40rpx
+}
+.login{
+	height: 80rpx;
+	width: 100%;
+	display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    background: #108ee9;
+    border-radius: 8rpx;
+    margin-top: 40rpx
+}
+.count-down{
+	padding: 10rpx;
+  color: #108ee9
+}
+.verify-get{
+	color: #108ee9
+}

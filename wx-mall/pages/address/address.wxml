@@ -1,0 +1,23 @@
+<!--pages/address/address.wxml-->
+<view class="container">
+	<view class="bottom">
+		<view class="add" bindtap="createAddress">
+			<image class="small-img" src="/images/add.png"></image>
+			<view class="address-text">新增收货地址</view>
+		</view>
+	</view>
+	<view class="listAddress">
+		<view class="address-item" wx:for="{{listAddress}}" wx:for-item="address" wx:key="address">
+			<view class="address-left" bindtap="getAddress" data-index="{{index}}">
+				<view class="address">
+          <text class="defaluted" wx:if="{{address.defaulted == '1'}}">默认</text>
+          {{address.town}} {{address.address}}
+        </view>
+				<view class="user-info">{{address.username}} {{address.mobile}}</view>
+			</view>
+			<view class="address-right">
+				<image class="edit-img" src="/images/edit.png" mode="scaleToFill" bindtap="updateAddress" data-index="{{index}}"></image>
+			</view>
+		</view>
+	</view>
+</view>

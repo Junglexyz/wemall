@@ -1,0 +1,42 @@
+<!--pages/goods/search/search.wxml-->
+<view class="container">
+  <view class="search-box">
+    <view class="search">
+      <image src="/images/search.png" class="search-img" bindtap="search"></image>
+      <input value="" bindchange="searchContent" placeholder="搜索店内商品" class="search-text"></input>
+    </view>
+    <view class="search-btn" bindtap="search">搜索</view>
+  </view>
+  <view class="content">
+    <view class="goods">
+      <view wx:if="{{listGoods.length == 0}}" class="empty">
+        <image src="/images/nothing.png" class="nothing-img"></image>
+        <text class="nothing-text">未搜索到商品</text>
+      </view>
+      <scroll-view scroll-y enable-flex="true" scroll-into-view="{{toView}}" scroll-with-animation="true" style="height:500px" >
+        <view id="{{id}}" class="goods-list" wx:for="{{listGoods}}" wx:for-item="goods" wx:key="goods">
+        <view class="mask" wx:if="{{goods.stock <= 0}}" bindtap="amountOver">
+          <image src="/images/amount-over.png" class="amount-over"></image>
+        </view>
+        <view class="goods-img-box">
+          <image class="goods-img" src="{{goods.cover}}" lazy-load></image>
+        </view>
+        <!--商品信息-->
+        <view class="goods-details">
+          <view class="goods-name"><rich-text nodes="{{goods.title}}"></rich-text></view>
+          <text class="goods-des">{{goods.desc}}</text>
+          <view wx:if="{{goods.special}}" class="goods-limit">限购1份</view>
+          <view class="price">
+            <view class="price-text">￥{{goods.sellPrice}}</view>
+            <view class="select">
+              <image src="/images/reduce.png" class="add-img" bindtap='reduceCart' wx:if="{{cart['g'+goods.goodsId].number != null && cart['g'+goods.goodsId].number != 0}}" data-id="{{goods.goodsId}}" data-categoryId = "{{goods.categoryId}}"></image>
+              <view class="good-amount" wx:if="{{cart['g'+goods.goodsId] != null && cart['g'+goods.goodsId].number != 0}}">{{cart['g'+goods.goodsId].number}}</view>
+              <image src="/images/add.png" class="add-img" bindtap='addCart' data-goods="{{goods}}"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

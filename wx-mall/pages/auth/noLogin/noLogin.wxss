@@ -1,0 +1,29 @@
+/* pages/auth/noLogin/noLogin.wxss */
+.container{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%
+}
+.avatar{
+  padding: 100rpx;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.avatar-img{
+  height: 198rpx;
+  width: 198rpx
+}
+.login-btn{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  padding: 25rpx;
+  background: #188ee9;
+  border-radius: 10rpx
+}

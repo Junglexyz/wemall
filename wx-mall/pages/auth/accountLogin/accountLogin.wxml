@@ -1,0 +1,19 @@
+<!--pages/auth/accountLogin/accountLogin.wxml-->
+<view class="container">
+	<view class="content">
+		<view class="form">
+			<view class="form-item mobile-form">
+		      <input class="input" bindinput="bindinputMobile" placeholder="手机号" value="{{mobile}}" auto-focus/>
+		      <view wx:if="{{countDown}}" class="count-down">{{counts}}s</view>
+		      <view wx:else class="{{vaildMobile ? 'verify-get' : 'verify-btn'}}" bindtap="getVerify">获取验证码</view>
+		    </view>
+		    <view class="form-item">
+		      <input class="input" bindinput="bindinputVerify" value="{{verifyCode}}" placeholder="{{verifyStatus}}" />
+		    </view>
+		    <view class="{{login ? 'login' : 'login-btn'}}" bindtap="login">登录</view>
+		</view>
+		<view class="booter">
+			用户协议
+		</view>
+	</view>
+</view>

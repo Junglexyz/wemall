@@ -1,0 +1,27 @@
+<!--pages/ucenter/ucenter.wxml-->
+<view class="container">
+	<view class="header">
+		<image class="header-img" src="/images/avatar.png"></image>
+		<view class="account-info" wx:if="{{userInfo.username != null}}">
+			<view class="account">{{userInfo.username}}</view>
+			<view class="phone">{{userInfo.mobile}}</view>
+		</view>
+    <view class="account-info" wx:if="{{userInfo.username == null}}">
+			<view bindtap="toLogin">登录/注册</view>
+		</view>
+	</view>
+	<view class="body">
+		<view class="list">
+			<view wx:for="{{menus}}" wx:for-item="menu" class="list-item" data-needLogin="{{menu.needLogin}}" data-url="{{menu.url}}" bindtap="subMenu">
+				<view class="list-left">
+					<image class="list-img" src="{{menu.img}}"></image>
+					<view class="list-name">{{menu.name}}</view>
+				</view>
+				<view class="list-right">
+					<image class="list-arrow" src="/images/arrow.png"></image>
+				</view>
+			</view>
+		</view>
+		<view class="login" bindtap="toLogin">{{isLogin ? '退出登录' : '登录'}}</view>
+	</view>
+</view>

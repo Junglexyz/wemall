@@ -1,0 +1,264 @@
+/* pages/checkout/checkout.wxss */
+.container{
+  padding: 20rpx;
+	background:#f7f7f7;
+}
+.center-item{ /** 最内层居中*/
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center
+}
+.padding-top10{
+	padding-top: 5rpx
+}
+.padding-top20{
+	padding-top: 20rpx
+}
+/**配送方式*/
+.delivery{
+	display: flex;
+	flex-flow: column nowrap;
+	width: 100%;
+	background: #fff;
+}
+.way{
+	background: #108ee9;
+	border-radius: 30rpx;
+}
+.select-way{
+	display: flex;
+	flex-flow: row nowrap;
+	width: 100%;
+	background: #ddd;
+	border-radius: 30rpx
+}
+
+.to-home{
+	padding: 20rpx;
+	background: #fff
+}
+.home{
+	width: 50%;
+	height: 60rpx;
+}
+.address{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20rpx 0 20rpx 0
+}
+.address-left{
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center
+}
+.address-item{
+	display: flex;
+	flex-flow: column nowrap;
+}
+.address-detail{
+	color: #565656;
+	font-size: 35rpx;
+	padding-bottom: 20rpx
+
+}
+.user-info{
+	color: #898989;
+	font-size: 28rpx
+}
+.small-img{ /** 小图标尺寸*/
+	width: 50rpx;
+	height: 50rpx
+}
+.address-add{
+	margin-right: 20rpx 
+}
+.to-home-time{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: flex-start;
+	align-items: center
+}
+
+.mall{
+	width: 50%;
+	height: 60rpx;
+}
+.go-mall{
+	background: #fff;
+	padding: 20rpx
+}
+.pickup-address{
+	display: flex;
+	flex-flow: column nowrap;
+}
+.pickup-address-details{
+	font-size: 21px
+}
+.map-text{
+	color: #00007a;
+	padding-bottom: 20rpx
+}
+.pickup-info{
+	border-top:2rpx #aaa solid;
+}
+
+
+.goods-lists{
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	background: #fff;
+	padding: 20rpx;
+	margin-top: 10rpx;
+	box-sizing: border-box;
+}
+.goods-list{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 20rpx;
+	margin: 20rpx 2rpx 0 2rpx;
+	background: #f7f7f7;
+	box-sizing: border-box;
+}
+.goods-name{
+  font-size: 28rpx;
+  color: #8a8a8a;
+  width: 50%
+}
+.goods-amount{
+  font-size: 24rpx
+}
+.goods-price{
+  font-size: 26rpx
+}
+.down{
+  font-size: 30rpx;
+  color: #454545;
+  border: 1rpx #454545 solid;
+  border-radius: 5rpx;
+  padding: 3rpx;
+  margin-top: 3rpx
+}
+
+.preferential-infos{
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-between;
+	padding: 20rpx;
+	align-items: center;
+	width: 100%;
+	background: #fff;
+	box-sizing: border-box;
+	margin-top: 20rpx
+}
+.preferential-info{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	padding: 20rpx;
+	align-items: center;
+	width: 100%;
+	box-sizing: border-box;
+}
+.pre-level{
+  font-size: 30rpx;
+  color: #454545
+}
+.sub{
+	padding: 10rpx;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	background: rgb(245, 229, 89);
+	color: #fff
+}
+.red-paper{
+	padding: 10rpx;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	background: rgb(223, 75, 16);
+	color: #fff
+}
+.pre-money{
+	color: #ff0000
+}
+.tip{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: flex-end;
+	align-items: center;
+	width: 100%;
+	height: 60rpx
+}
+.sum{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: flex-end;
+	align-items: center;
+	width: 100%;
+	height: 60rpx;
+	border-top: 2rpx #aaa dashed
+}
+.sum-of-pre{
+	color: #777;
+	font-size: 11px
+}
+.sum-of-money{
+	display: flex;
+	flex-flow: row nowrap;
+	color: #777;
+	font-size: 12px;
+	margin-left: 40rpx 
+}
+.sum-of-money-text{
+	color: #ff0000
+}
+
+.remarks{
+	display: flex;
+	flex-flow: column nowrap;
+  margin-bottom: 198rpx
+}
+.pay-way{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	padding: 20rpx;
+	margin-top: 20rpx;
+	background: #fff;
+	border-width: 2rpx #aaa solid 
+}
+
+.pay{
+	position: fixed;
+	bottom: 0;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	background: #232323;
+	height: 118rpx
+}
+.total{
+	width: 35%;
+	height: 100%;
+	color: #fff
+}
+.go-pay{
+	width: 75%;
+	height: 100%;
+	background: #108ee9;
+  color:#fff
+}

@@ -1,0 +1,69 @@
+<!--pages/goods/goods.wxml-->
+<view class="container"> 
+  <view class="search-box">
+    <view class="search" bindtap="search">
+      <image src="/images/search.png" class="search-img"></image>
+      <view class="search-text">搜索店内商品</view>
+    </view>
+  </view>
+  <view class="content">
+    <view class="category">
+     <view wx:for="{{categories}}" wx:for-item="category" wx:key="category">
+        <view class="{{category.value == currentCategory ? 'current-category-item' : 'category-item'}} posi" bindtap="changeCategory" data-id="{{category.value}}" data-index="{{index}}">
+          {{category.label}}
+          <view class="mark" wx:if="{{category.number != 0}}">{{category.number}}</view>
+        </view>
+        <view wx:if="{{category.value == currentCategory}}" class="{{subCategory.value == subCurrentCategory ? 'sub-current-category-item': 'sub-category-item'}} posi" wx:for="{{category.children}}" wx:for-item="subCategory" wx:key="subCategory" data-subId = "{{subCategory.value}}" bindtap="subChangeCategory">
+          <view class="{{subCategory.value == subCurrentCategory ? 'sub-current-category-dot' : 'sub-category-dot'}}"></view>
+          <view class="sub-category-text">{{subCategory.label}}</view>
+          <view class="mark" wx:if="{{subCategory.number !=0 }}">{{subCategory.number}}</view>
+        </view>
+     </view>
+    </view>
+    <view class="goods">
+      <view wx:if="{{listGoods.length == 0}}" class="empty">
+        <image src="/images/nothing.png" class="nothing-img"></image>
+        <text class="nothing-text">此分类暂无商品</text>
+      </view>
+      <scroll-view scroll-y enable-flex="true" scroll-into-view="{{toView}}" scroll-with-animation="true" style="height:500px" >
+        <view id="{{id}}" class="goods-list" wx:for="{{listGoods}}" wx:for-item="goods" wx:key="goods">
+        <view class="mask" wx:if="{{goods.stock <= 0}}" bindtap="amountOver">
+          <image src="/images/amount-over.png" class="amount-over"></image>
+        </view>
+        <view class="goods-img-box">
+          <image class="goods-img" src="{{goods.cover}}" lazy-load></image>
+        </view>
+        <!--商品信息-->
+        <view class="goods-details">
+          <view class="goods-name">{{goods.title}}</view>
+          <text class="goods-des">{{goods.desc}}</text>
+          <view wx:if="{{goods.special}}" class="goods-limit">限购1份</view>
+          <view class="price">
+            <view class="price-text">￥{{goods.sellPrice}}</view>
+            <view class="select">
+              <image src="/images/reduce.png" class="add-img" bindtap='reduceCart' wx:if="{{cart['g'+goods.goodsId].number != null && cart['g'+goods.goodsId].number != 0}}" data-id="{{goods.goodsId}}"></image>
+              <view class="good-amount" wx:if="{{cart['g'+goods.goodsId] != null && cart['g'+goods.goodsId].number != 0}}">{{cart['g'+goods.goodsId].number}}</view>
+              <image src="/images/add.png" class="add-img" bindtap='addCart' data-goods="{{goods}}"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+      </scroll-view>
+    </view>
+  </view>
+  <!--购物车-->
+  <view class="cart">
+    <view class="cart-img-box">
+     <view class="count">{{totalAmount}}</view>
+     <image class="cart-img" src="/images/cart.png"></image>
+    </view>
+    <view></view>
+    <view class="total-price">￥{{totalPrice}}</view>
+    <block wx:if="{{totalAmount == 0}}">
+      <view class="pay" style="background:#898989">去选购</view>
+    </block>
+    <block wx:else>
+      <view class="pay" bindtap="toPay">去结算</view>
+    </block>
+  </view>
+</view>

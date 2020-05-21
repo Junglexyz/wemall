@@ -1,0 +1,14 @@
+<!--pages/ucenter/balance/detail/detail.wxml-->
+<view class="container">
+ <view wx:for="{{balances}}" wx:for-item="balance" wx:key="balance" class="balance">
+  <view class="top">
+    <view>{{balance.title}}</view>
+    <view class="plus" wx:if="{{balance.types == 1}}"> +{{balance.changeMoney}}</view>
+    <view class="withdraw"  wx:if="{{balance.types == 2}}">-{{balance.changeMoney}}</view>
+  </view>
+  <view class="bottom">
+    <view>{{balance.createTime}}</view>
+    <view>余额 {{balance.balance}}</view>
+  </view>
+ </view>
+</view>

@@ -1,0 +1,13 @@
+<!--pages/auth/noLogin/noLogin.wxml-->
+<view class="container">
+  <view class="avatar">
+    <image src="/images/avatar.png" class="avatar-img"></image>
+    wemall商城
+  </view>
+  <view class="login-btn" bindtap="login">
+    登录
+  </view>
+  <view class="protocol">
+    用户协议
+  </view>
+</view>
