@@ -1,8 +1,7 @@
 package com.jungle.wemall.admin.controller;
 
-import com.jungle.wemall.common.excel.EasyExcelWrite;
+import com.jungle.wemall.admin.service.excel.EasyExcelWrite;
 import com.jungle.wemall.common.notify.NotifyService;
-import com.jungle.wemall.common.notify.TemplateData;
 import com.jungle.wemall.common.util.ResponseUtil;
 import com.jungle.wemall.db.pojo.WemallOrder;
 import com.jungle.wemall.db.pojo.WemallUser;
@@ -17,10 +16,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,7 +60,6 @@ public class AdminOrderController {
             String errCode = "0";
             // 返回结果的键名
             String resultCodeKey = "errcode";
-            System.out.println(send);
             if(errCode.equals(FastJsonUtil.getString(send, resultCodeKey))){
                 return ResponseUtil.ok();
             } else {
@@ -73,9 +70,29 @@ public class AdminOrderController {
         return ResponseUtil.fail();
     }
 
+    @PostMapping("/sum")
+    public Object sumOrder(@RequestBody String body){
+        Map order = FastJsonUtil.getMap(body, "order");
+        List<Map<String, Object>> maps = wemallOrderService.sumOrder(order);
+        if(maps.size() > 0){
+            return ResponseUtil.okList(maps);
+        }
+        return ResponseUtil.fail();
+    }
+
     @GetMapping("/export")
     public void exportOrder(HttpServletResponse response){
+        /*EasyExcelWrite easyExcelWrite = new EasyExcelWrite();
+        easyExcelWrite.downLoadExcel("order.xlsx", response);*/
+    }
+
+    @GetMapping("/exportSum")
+    public void exportSumOrder(HttpServletResponse response, @RequestParam(value="createTime") String createTime, @RequestParam(value="endTime") String endTime){
+        Map<String, Object> order = new HashMap<>(4);
+        order.put("createTime", createTime);
+        order.put("endTime", endTime);
+        List<Map<String, Object>> listSum = wemallOrderService.sumOrder(order);
         EasyExcelWrite easyExcelWrite = new EasyExcelWrite();
-        easyExcelWrite.downLoadExcel("order.xlsx", response);
+        easyExcelWrite.downLoadExcel("order_sum"+createTime+"_"+endTime+".xlsx",listSum, response);
     }
 }

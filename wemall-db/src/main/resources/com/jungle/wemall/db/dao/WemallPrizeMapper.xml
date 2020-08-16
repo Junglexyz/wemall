@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jungle.wemall.db.dao.WemallPrizeMapper">
+  <resultMap id="BaseResultMap" type="com.jungle.wemall.db.pojo.WemallPrize">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="award_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="grade" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="coupon_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_tel" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="used" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, award_id, grade, coupon_id, user_tel, user_id, used, create_time, update_time
+  </sql>
+  <select id="selectOne" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wemall_prize
+    where award_id = #{id,jdbcType=INTEGER} and used = 0 limit 0, 1
+  </select>
+  <update id="updateNoUsed" parameterType="com.jungle.wemall.db.pojo.WemallPrize">
+    update wemall_prize
+    set used = 1,
+    user_id = #{userId, jdbcType=INTEGER},
+    user_tel = #{userTel, jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER} and used = 0
+  </update>
+  <select id="list" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wemall_prize
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByAward" parameterType="java.lang.Integer">
+    delete from wemall_prize
+    where award_id = #{awardId,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wemall_prize
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wemall_prize
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jungle.wemall.db.pojo.WemallPrize">
+    insert into wemall_prize (id, award_id, grade, 
+      coupon_id, user_tel, user_id, 
+      used, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{awardId,jdbcType=INTEGER}, #{grade,jdbcType=VARCHAR}, 
+      #{couponId,jdbcType=INTEGER}, #{userTel,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{used,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.WemallPrize">
+    insert into wemall_prize
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="awardId != null">
+        award_id,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="userTel != null">
+        user_tel,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="used != null">
+        used,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="awardId != null">
+        #{awardId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId != null">
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="userTel != null">
+        #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="used != null">
+        #{used,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jungle.wemall.db.pojo.WemallPrize">
+    update wemall_prize
+    <set>
+      <if test="awardId != null">
+        award_id = #{awardId,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="userTel != null">
+        user_tel = #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="used != null">
+        used = #{used,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jungle.wemall.db.pojo.WemallPrize">
+    update wemall_prize
+    set award_id = #{awardId,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=VARCHAR},
+      coupon_id = #{couponId,jdbcType=INTEGER},
+      user_tel = #{userTel,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      used = #{used,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

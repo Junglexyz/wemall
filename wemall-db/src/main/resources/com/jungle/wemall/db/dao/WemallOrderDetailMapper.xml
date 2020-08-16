@@ -12,17 +12,20 @@
       <arg column="sell_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="discount_money" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_id, goods_id, title, cover, origin_price, sell_price, discount_money, number
+    id, order_id, goods_id, title, cover, origin_price, sell_price, discount_money, number, 
+    create_time, update_time
   </sql>
   <!--批量插入-->
-  <insert id ="insertByBatch" parameterType="java.util.List" >
+  <insert id="insertByBatch" parameterType="java.util.List">
     insert into wemall_order_detail
     (order_id, goods_id, title, sell_price, number)
     values
-    <foreach collection ="list" item="ordersDetail" index= "index" separator =",">
+    <foreach collection="list" index="index" item="ordersDetail" separator=",">
       (
       #{ordersDetail.orderId},
       #{ordersDetail.goodsId},
@@ -30,13 +33,18 @@
       #{ordersDetail.sellPrice},
       #{ordersDetail.number}
       )
-    </foreach >
-  </insert >
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from wemall_order_detail
-    where id = #{id,jdbcType=INTEGER}
+    </foreach>
+  </insert>
+  <!-- 订单汇总 -->
+  <resultMap id="sumResultMap" type="java.util.Map">
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+  </resultMap>
+  <select id="sumOrder" parameterType="java.util.Map" resultMap="sumResultMap">
+    SELECT title, COUNT(*) number FROM wemall_order_detail
+    where create_time between #{order.createTime, jdbcType=TIMESTAMP}
+    and  #{order.endTime, jdbcType=TIMESTAMP}
+	group by title
   </select>
   <select id="selectByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -44,23 +52,29 @@
     from wemall_order_detail
     where order_id = #{order_id,jdbcType=CHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from wemall_order_detail
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
   <delete id="deleteByOrderId" parameterType="java.lang.String">
     delete from wemall_order_detail
     where order_id = #{order_id,jdbcType=VARCHAR}
   </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wemall_order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wemall_order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.jungle.wemall.db.pojo.WemallOrderDetail">
     insert into wemall_order_detail (id, order_id, goods_id, 
       title, cover, origin_price, 
-      sell_price, discount_money, number
-      )
+      sell_price, discount_money, number, 
+      create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=CHAR}, #{goodsId,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{originPrice,jdbcType=DECIMAL}, 
-      #{sellPrice,jdbcType=DECIMAL}, #{discountMoney,jdbcType=DECIMAL}, #{number,jdbcType=INTEGER}
-      )
+      #{sellPrice,jdbcType=DECIMAL}, #{discountMoney,jdbcType=DECIMAL}, #{number,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.WemallOrderDetail">
     insert into wemall_order_detail
@@ -92,6 +106,12 @@
       <if test="number != null">
         number,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -120,6 +140,12 @@
       </if>
       <if test="number != null">
         #{number,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -150,6 +176,12 @@
       <if test="number != null">
         number = #{number,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -162,7 +194,9 @@
       origin_price = #{originPrice,jdbcType=DECIMAL},
       sell_price = #{sellPrice,jdbcType=DECIMAL},
       discount_money = #{discountMoney,jdbcType=DECIMAL},
-      number = #{number,jdbcType=INTEGER}
+      number = #{number,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -90,7 +90,6 @@ public class WxOrderController {
     public String notify(HttpServletRequest request, HttpServletResponse response){
         //  produces="text/xml" 返回前端content-type类型
         String result = wemallOrderService.payNotify(request, response);
-        System.out.println(result);
         if(request != null){
             return result;
         }

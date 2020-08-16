@@ -35,6 +35,10 @@ public class WemallCouponService {
         return wemallCouponMapper.listCoupon(null);
     }
 
+    public List<WemallCoupon> listAuthCoupon(String types) {
+        return wemallCouponMapper.listCoupon(types);
+    }
+
     /**
      * 用户获取优惠券
      * @param wemallCouponAccept

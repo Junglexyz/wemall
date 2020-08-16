@@ -2,6 +2,7 @@ package com.jungle.wemall.db.pojo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class WemallGoods {
     private Integer goodsId;
@@ -46,6 +47,8 @@ public class WemallGoods {
 
     private Date updateTime;
 
+    private List<WemallGoodsSpecification> specifications;
+
     public WemallGoods(Integer goodsId, Integer categoryId, String title, String goodsDescribe, String cover, BigDecimal originPrice, BigDecimal sellPrice, BigDecimal discount, BigDecimal returnCash, BigDecimal purchasingPrice, String purchasingUnit, Integer stock, Integer limitNum, String options, Integer totalSales, Integer monthSales, BigDecimal praiseRate, Boolean special, String status, Date createTime, Date updateTime) {
         this.goodsId = goodsId;
         this.categoryId = categoryId;
@@ -68,6 +71,39 @@ public class WemallGoods {
         this.status = status;
         this.createTime = createTime;
         this.updateTime = updateTime;
+    }
+
+    public WemallGoods(Integer goodsId, Integer categoryId, String title, String goodsDescribe, String cover, BigDecimal originPrice, BigDecimal sellPrice, BigDecimal discount, BigDecimal returnCash, BigDecimal purchasingPrice, String purchasingUnit, Integer stock, Integer limitNum, String options, Integer totalSales, Integer monthSales, BigDecimal praiseRate, Boolean special, String status, Date createTime, Date updateTime, List<WemallGoodsSpecification> specifications) {
+        this.goodsId = goodsId;
+        this.categoryId = categoryId;
+        this.title = title;
+        this.goodsDescribe = goodsDescribe;
+        this.cover = cover;
+        this.originPrice = originPrice;
+        this.sellPrice = sellPrice;
+        this.discount = discount;
+        this.returnCash = returnCash;
+        this.purchasingPrice = purchasingPrice;
+        this.purchasingUnit = purchasingUnit;
+        this.stock = stock;
+        this.limitNum = limitNum;
+        this.options = options;
+        this.totalSales = totalSales;
+        this.monthSales = monthSales;
+        this.praiseRate = praiseRate;
+        this.special = special;
+        this.status = status;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.specifications = specifications;
+    }
+
+    public List<WemallGoodsSpecification> getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(List<WemallGoodsSpecification> specifications) {
+        this.specifications = specifications;
     }
 
     public WemallGoods() {

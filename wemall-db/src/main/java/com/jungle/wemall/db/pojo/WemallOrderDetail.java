@@ -1,6 +1,7 @@
 package com.jungle.wemall.db.pojo;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class WemallOrderDetail {
     private Integer id;
@@ -21,7 +22,11 @@ public class WemallOrderDetail {
 
     private Integer number;
 
-    public WemallOrderDetail(Integer id, String orderId, Integer goodsId, String title, String cover, BigDecimal originPrice, BigDecimal sellPrice, BigDecimal discountMoney, Integer number) {
+    private Date createTime;
+
+    private Date updateTime;
+
+    public WemallOrderDetail(Integer id, String orderId, Integer goodsId, String title, String cover, BigDecimal originPrice, BigDecimal sellPrice, BigDecimal discountMoney, Integer number, Date createTime, Date updateTime) {
         this.id = id;
         this.orderId = orderId;
         this.goodsId = goodsId;
@@ -31,6 +36,8 @@ public class WemallOrderDetail {
         this.sellPrice = sellPrice;
         this.discountMoney = discountMoney;
         this.number = number;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
     }
 
     public WemallOrderDetail() {
@@ -107,5 +114,21 @@ public class WemallOrderDetail {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -16,6 +16,7 @@ public class WxCategoryController {
 
     @GetMapping("/list")
     public Object listCategory(){
+//        System.out.println("test");
         List<WemallCategory> listWemallCategory = wemallCategoryService.getCategoryByPid();
         if(listWemallCategory != null){
             return ResponseUtil.okList(listWemallCategory);

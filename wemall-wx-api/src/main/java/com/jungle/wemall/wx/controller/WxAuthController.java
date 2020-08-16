@@ -45,9 +45,7 @@ public class WxAuthController {
     @PostMapping("/getVerify")
     public Object getVerify(@RequestBody String body){
         String mobile = FastJsonUtil.getString(body, "mobile");
-        System.out.println(mobile);
         String code = CharUtil.getRandomNum(6);
-        System.out.println(code);
         String param = "{\"code\":"+code+"}";
         boolean successful = CaptchaCodeManager.addToCache(mobile, code);
         SmsResult result = null;
@@ -96,10 +94,9 @@ public class WxAuthController {
                 userInfo.setOpenId(openId);
                 // 插入成功返回userId
                 int insertResult = wemallUserService.insert(userInfo);
-                System.out.println("userId: "+userInfo.getUserId());
                 // 注册送满减券
                 // 获取满减优惠券
-                List<WemallCoupon> wemallCoupons = wemallCouponService.listCoupon("1");
+                List<WemallCoupon> wemallCoupons = wemallCouponService.listAuthCoupon("1");
                 for(WemallCoupon coupon: wemallCoupons){
                     WemallCouponAccept couponAccept = new WemallCouponAccept();
                     couponAccept.setUserId(userInfo.getUserId());

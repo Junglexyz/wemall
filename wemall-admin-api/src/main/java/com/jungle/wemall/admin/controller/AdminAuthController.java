@@ -3,6 +3,7 @@ package com.jungle.wemall.admin.controller;
 import com.jungle.wemall.admin.util.Permission;
 import com.jungle.wemall.admin.util.PermissionUtil;
 import com.jungle.wemall.admin.util.ResponseUtil;
+import com.jungle.wemall.common.util.bcrypt.BCryptPasswordEncoder;
 import com.jungle.wemall.db.pojo.WemallAdminUser;
 import com.jungle.wemall.db.service.WemallAdminUserService;
 import com.jungle.wemall.db.service.WemallPermissionService;
@@ -41,7 +42,6 @@ public class AdminAuthController {
 
     @PostMapping("/login")
     public Object loginByUserName(@RequestBody String body, HttpServletRequest request){
-        System.out.println(body);
         String username = FastJsonUtil.getString(body, "username");
         String password = FastJsonUtil.getString(body, "password");
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
@@ -72,7 +72,6 @@ public class AdminAuthController {
         Map<String, Object> adminInfo = new HashMap<String, Object>(4);
         adminInfo.put("nickName", admin.getUsername());
         adminInfo.put("avatar", admin.getAvatar());
-        System.out.println(admin.getRoleIds());
         Map<Object, Object> result = new HashMap<Object, Object>(4);
         result.put("token", currentUser.getSession().getId());
         result.put("adminInfo", adminInfo);
@@ -94,7 +93,6 @@ public class AdminAuthController {
         Map<String, Object> data = new HashMap<>(4);
         data.put("name", admin.getUsername());
         data.put("avatar", admin.getAvatar());
-        System.out.println("info:"+admin.getRoleIds());
 //        Integer[] roleIds = admin.getRoleIds();
 
         String roleIds = admin.getRoleIds();
@@ -103,37 +101,40 @@ public class AdminAuthController {
         String strSub = str.substring(1,str.length()-1);
         String[] strArray = strSub.split(",");
         List<String> rowIdList = Arrays.asList(strArray);
-        System.out.println(rowIdList);
         Set<String> roles = wemallRoleService.queryByIds(rowIdList);
-        System.out.println(roles);
         Set<String> permissions = wemallPermissionService.queryByRoleIds(rowIdList);
-        System.out.println(permissions);
         data.put("roles", roles);
         // NOTE
         // 这里需要转换perms结构，因为对于前端而已API形式的权限更容易理解
         data.put("perms", toApi(permissions));
-        System.out.println(data);
         return ResponseUtil.ok(data);
     }
-    /**
-     * 登录
-     */
-    /*@PostMapping("/login")
-    public Object upload(@RequestBody String body)  {
-        String account = FastJsonUtil.getString(body, "account");
-        String password = FastJsonUtil.getString(body,"password");
-        WemallAdminUser wemallAdminUser = wemallAdminUserService.login(account, password);
-        if(null != wemallAdminUser){
-            Map<String, Object> data = new HashMap<>(4);
-            data.put("token", UserTokenManager.generateToken(account));
-            data.put("account", account);
-            return ResponseUtil.ok(data);
+
+    @PostMapping("/logout")
+    public Object logout(){
+        Subject currentUser = SecurityUtils.getSubject();
+
+        currentUser.logout();
+        return ResponseUtil.ok();
+    }
+
+    @PostMapping("/changePassword")
+    public Object changePassword(@RequestBody String body){
+        String password = FastJsonUtil.getString(body, "oldPassword");
+        String newPassword = FastJsonUtil.getString(body, "newPassword");
+        Subject currentUser = SecurityUtils.getSubject();
+        WemallAdminUser admin = (WemallAdminUser) currentUser.getPrincipal();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(password, admin.getPassword())) {
+            return ResponseUtil.fail(ADMIN_INVALID_ACCOUNT, "账号密码不对");
         }
-        if(null == wemallAdminUser){
-            return ResponseUtil.fail(1001,"账号或密码错误！");
-        }
-        return ResponseUtil.fail();
-    }*/
+
+        String encodedNewPassword = encoder.encode(newPassword);
+        admin.setPassword(encodedNewPassword);
+
+        wemallAdminUserService.updateById(admin);
+        return ResponseUtil.ok();
+    }
 
     @Autowired
     private ApplicationContext context;

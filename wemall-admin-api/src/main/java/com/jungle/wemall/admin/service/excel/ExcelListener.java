@@ -1,10 +1,10 @@
 package com.jungle.wemall.admin.service.excel;
 
-import com.alibaba.excel.read.context.AnalysisContext;
-import com.alibaba.excel.read.event.AnalysisEventListener;
+
+import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.event.AnalysisEventListener;
 import com.jungle.wemall.db.pojo.WemallGoods;
-import com.jungle.wemall.db.service.WemallGoodsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jungle.wemall.db.pojo.WemallGoodsSpecification;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,8 +13,9 @@ import java.util.List;
 /**
  * @description: excel监听
  * @author: jungle
- * @date: 2020-02-18 12:03
- */
+ * @date: 2020-02-18 12:03*/
+
+
 
 public class ExcelListener extends AnalysisEventListener {
     //自定义用于暂时存储data。
@@ -24,17 +25,26 @@ public class ExcelListener extends AnalysisEventListener {
     public void invoke(Object object, AnalysisContext context) {
         List<String> stringList= (List<String>) object;
         WemallGoods goods = new WemallGoods();
-        System.out.println("cus:"+context.getCustom());
+        WemallGoodsSpecification specification = new WemallGoodsSpecification();
         Integer categoryId = Integer.parseInt(context.getCustom().toString());
-        if(context.getCurrentRowNum() > 0){
+
+        // 去除表头
+        if(context.getCurrentRowNum() > 0 && stringList.get(2) != null){
+            goods.setCover("http://wemall-jungle.oss-cn-chengdu.aliyuncs.com/goods/"+stringList.get(2)+".jpg");
             goods.setTitle(stringList.get(4));
             goods.setCategoryId(categoryId);
-            goods.setPurchasingPrice(new BigDecimal(stringList.get(11)));
             goods.setPurchasingUnit(stringList.get(8));
             goods.setOriginPrice(new BigDecimal(stringList.get(13)));
             goods.setSellPrice(new BigDecimal(stringList.get(13)));
             goods.setStatus("1");
-            datas.add(goods); //数据存储到list，供批量处理，或后续自己业务逻辑处理。
+            goods.setStock(50);
+            specification.setSpecification(stringList.get(8));
+            specification.setPrice(new BigDecimal(stringList.get(13)));
+            List<WemallGoodsSpecification> list = new ArrayList<>();
+            list.add(specification);
+            goods.setSpecifications(list);
+            // 数据存储到list，供批量处理，或后续自己业务逻辑处理。
+            datas.add(goods);
             doSomething(goods); //根据自己业务做处理
         }
     }

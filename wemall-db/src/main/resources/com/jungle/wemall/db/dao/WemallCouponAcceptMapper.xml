@@ -41,8 +41,8 @@
   <select id="selectNoUsedByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     a.id, a.user_id, a.coupon_id, b.title, b.target_money, b.discount_money,
-    a.types, a.mobile, a.status,
-    a.end_time, a.create_time, a.update_time
+    b.types, a.mobile, a.status,
+    b.end_time, b.create_time, a.update_time
     from wemall_coupon_accept a, wemall_coupon b
     where user_id = #{userId,jdbcType=INTEGER}
     and a.coupon_id = b.coupon_id

@@ -41,4 +41,6 @@ public interface WemallGoodsMapper {
     void addStock(@Param("goodsId")Integer goodsId, @Param("number")Integer number);
 
     List<WemallGoods> search(String content);
+
+    WemallGoods single();
 }

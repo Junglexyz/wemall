@@ -19,3 +19,7 @@ selenium-debug.log
 *.sln
 
 package-lock.json
+
+D:\Documents\demo\java\wemall\wemall-all\src\main\resources\application.yml
+D:\Documents\demo\java\wemall\wemall-all\src\main\resources\application-common.yml
+D:\Documents\demo\java\wemall\wemall-all\src\main\resources\application-db.yml

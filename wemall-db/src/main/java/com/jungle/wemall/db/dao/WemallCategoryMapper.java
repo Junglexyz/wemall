@@ -17,7 +17,7 @@ public interface WemallCategoryMapper {
 
     int updateByPrimaryKey(WemallCategory record);
 
-    List<WemallCategory> selectByPid(Integer pid);
+    List<WemallCategory> selectByPid(int pid);
 
-    int deleteByPid(Integer id);
+    int deleteByPid(Integer pid);
 }

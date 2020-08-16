@@ -115,11 +115,12 @@
   </select>
   <!--自定义-->
   <insert id="insertByMap" parameterType="java.util.Map">
-     insert into wemall_order (order_id, user_id, address_id,
+     insert into wemall_order (order_id, user_id, address_id, send_cost,
      total_money, discount_money, pay_money, pay_way, delivery_way, status
      )
      values (#{order.orderId,jdbcType=VARCHAR}, #{order.userId,jdbcType=INTEGER},
      #{order.addressId,jdbcType=INTEGER},
+     #{order.sendCost,jdbcType=DECIMAL},
      #{order.totalMoney,jdbcType=DECIMAL}, #{order.discountMoney,jdbcType=DECIMAL},
      #{order.payMoney,jdbcType=DECIMAL}, #{order.payWay,jdbcType=CHAR},
      #{order.deliveryWay,jdbcType=CHAR},

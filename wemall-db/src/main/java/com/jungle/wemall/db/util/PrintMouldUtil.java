@@ -18,7 +18,9 @@ import java.util.Map;
 public class PrintMouldUtil {
     public static String getContent(WemallOrder order, WemallUserAddress address, List<WemallOrderDetail> orderDetails, String mobile){
         StringBuilder content = new StringBuilder();
-        content.append("<FH><FW> **#3文承维生活超市**</FW></FH>\r")
+        // 打印多联
+        content.append("<MN>2</MN>")
+            .append("<FH><FW> **#3文承维生活超市**</FW></FH>\r")
             .append("................................\r")
             .append("<FH><FW>      --").append("在线支付").append("--</FW></FH>\r")
             .append("下单时间：").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))).append("\r")
@@ -28,15 +30,17 @@ public class PrintMouldUtil {
         for(WemallOrderDetail detail: orderDetails){
             content.append(format(detail.getTitle()))
                 .append(String.format("%6s", detail.getNumber()))
-                .append(String.format("%10s", detail.getSellPrice().multiply(new BigDecimal(detail.getNumber()))))
+                .append(String.format("%10s", detail.getSellPrice()))
                 .append("\r");
         }
         content.append("................................\r")
+                .append("<FH2><FW2>").append("取件码:").append(order.getPackupCode()).append("</FW2></FH2>\r")
                 .append("<FH><FW>小计: ￥").append(order.getPayMoney()).append("</FW></FH>\r")
                 .append("<FH><FW>折扣: ￥").append(order.getDiscountMoney()).append("</FW></FH>\r");
+
         if(address != null){
             content.append("<FH><FW>").append(address.getUsername()).append(" ").append(address.getMobile()).append("</FW></FH>\r")
-                    .append("<FH><FW>").append(address.getAddress()).append("</FW></FH>\r");
+                    .append("<FH><FW>").append(address.getTown()).append(address.getVillage()).append(address.getGroups()).append(address.getAddress()).append("</FW></FH>\r");
         }
         if(mobile != null){
             content.append("<FH><FW>").append(mobile).append("</FW></FH>\r");
@@ -48,10 +52,12 @@ public class PrintMouldUtil {
         String format = null;
         if(title.length() <= 8){
             format = "%-"+ space(title) + "s";
+//            return title+"\r\n"+String.format(format, "");
+            return String.format(format, title);
         }else{
-            format = title + "\r" + "%-"+ 16 + "s";
+            format = "%-"+ 16 + "s";
+            return title+"\r\n"+String.format(format, "");
         }
-        return String.format(format, title);
     }
 
     /**

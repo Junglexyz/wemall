@@ -26,23 +26,64 @@
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
+  <resultMap id="GoodsSpecification" type="com.jungle.wemall.db.pojo.WemallGoods">
+      <result property="goodsId" column="goods_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <result property="categoryId" column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <result property="title" column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <result property="goodsDescribe" column="goods_describe" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <result property="cover" column="cover" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <result property="originPrice" column="origin_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <result property="sellPrice" column="sell_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <result property="discount" column="discount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <result property="returnCash" column="return_cash" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <result property="purchasingPrice" column="purchasing_price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <result property="purchasingUnit" column="purchasing_unit" javaType="java.lang.String" jdbcType="CHAR" />
+      <result property="stock" column="stock" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <result property="limitNum" column="limit_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <result property="options" column="options" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <result property="totalSales" column="total_sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <result property="monthSales" column="month_sales" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <result property="praiseRate" column="praise_rate" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <result property="special" column="special" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <result property="status" column="status" javaType="java.lang.String" jdbcType="CHAR" />
+      <result property="createTime" column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <result property="updateTime" column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <collection property="specifications" javaType="List" ofType="com.jungle.wemall.db.pojo.WemallGoodsSpecification">
+        <result property="id" column="id" javaType="int" jdbcType="INTEGER"/>
+        <result property="goodsId" column="goods_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <result property="specification" column="specification" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result property="price" column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      </collection>
+  </resultMap>
   <sql id="Base_Column_List">
     goods_id, category_id, title, goods_describe, cover, origin_price, sell_price, discount, 
     return_cash, purchasing_price, purchasing_unit, stock, limit_num, options, total_sales, 
     month_sales, praise_rate, special, status, create_time, update_time
   </sql>
   <!--自定义-->
-  <select id="listGoods" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <select id="listGoods" parameterType="java.util.Map" resultMap="GoodsSpecification">
     select
-    <include refid="Base_Column_List" />
-    from wemall_goods where 1=1
+    a.*, b.*
+    from wemall_goods a, wemall_goods_specification b
+    where a.goods_id = b.goods_id
     <if test="data.categoryId != null">
       and category_id = #{data.categoryId}
     </if>
     <if test="data.status != null">
       and status = #{data.status}
     </if>
+    <if test="data.title != null">
+      and title like #{data.title}
+    </if>
     limit #{data.page} , #{data.pageSize}
+  </select>
+  <select id="single" parameterType="java.util.Map" resultMap="GoodsSpecification">
+    select
+    a.*, b.*
+    from wemall_goods a, wemall_goods_specification b
+    where a.goods_id = b.goods_id
+    and a.sell_price = 0
+    limit 0 , 1
   </select>
   <!--键库存-->
   <update id="reduceStock" parameterType="java.lang.Integer">
@@ -59,26 +100,43 @@
     where goods_id = #{goodsId,jdbcType=INTEGER}
   </update>
   <select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
-    select count(*) from wemall_goods
+    select count(*) from wemall_goods where 1 = 1
     <if test="data.categoryId != null">
-      where category_id = #{data.categoryId}
+      and category_id = #{data.categoryId}
+    </if>
+    <if test="data.status != null">
+      and status = #{data.status}
+    </if>
+    <if test="data.title != null">
+      and title like #{data.title}
     </if>
   </select>
-  <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="GoodsSpecification">
     select
-    <include refid="Base_Column_List" />
-    from wemall_goods where category_id = #{category_id, jdbcType=INTEGER} and status = 1
+    a.*, b.*
+    from wemall_goods a, wemall_goods_specification b
+    where category_id = #{category_id, jdbcType=INTEGER}
+    and status = 1
+    and a.goods_id = b.goods_id
   </select>
   <select id="search" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from wemall_goods where title like #{content}
   </select>
-  <select id="selectSpecial" resultMap="BaseResultMap">
+  <select id="selectSpecial" resultMap="GoodsSpecification">
+    select
+    a.*, b.*
+    from wemall_goods a, wemall_goods_specification b
+    where a.special = 1
+    and a.status = 1
+    and a.goods_id = b.goods_id
+  </select>
+  <!--<select id="selectSpecial" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from wemall_goods where special = 1 and status = 1
-  </select>
+  </select>-->
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -123,7 +181,7 @@
       #{status,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.WemallGoods">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="goodsId" parameterType="com.jungle.wemall.db.pojo.WemallGoods">
     insert into wemall_goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="goodsId != null">

@@ -82,11 +82,11 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table> -->
-        <!--<table tableName="wemall_category" domainObjectName="WemallCategory"
+        <table tableName="wemall_category" domainObjectName="WemallCategory"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-        </table>-->
+        </table>
         <!--<table tableName="wemall_withdraw_record" domainObjectName="WemallWithdrawRecord"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
@@ -106,8 +106,8 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-        </table>
-        <table tableName="wemall_order_refund" domainObjectName="WemallOrderRefund"
+        </table>-->
+        <!--<table tableName="wemall_order_refund" domainObjectName="WemallOrderRefund"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -132,7 +132,7 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>-->
-        <table tableName="wemall_role" domainObjectName="WemallRole"
+        <!--<table tableName="wemall_role" domainObjectName="WemallRole"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -141,6 +141,21 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
+        </table>-->
+        <!--<table tableName="wemall_goods_specification" domainObjectName="WemallGoodsSpecification"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
+        <!--<table tableName="wemall_award" domainObjectName="WemallAward"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
         </table>
+        <table tableName="wemall_prize" domainObjectName="WemallPrize"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>-->
     </context>
 </generatorConfiguration>

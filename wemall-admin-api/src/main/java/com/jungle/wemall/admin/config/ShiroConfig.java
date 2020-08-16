@@ -36,6 +36,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/admin/index/index", "anon");
         filterChainDefinitionMap.put("/admin/storage/**", "anon");
         filterChainDefinitionMap.put("/admin/order/export", "anon");
+        filterChainDefinitionMap.put("/admin/order/exportSum", "anon");
         filterChainDefinitionMap.put("/admin/storage/upload", "anon");
         filterChainDefinitionMap.put("/admin/goods/excel", "anon");
 

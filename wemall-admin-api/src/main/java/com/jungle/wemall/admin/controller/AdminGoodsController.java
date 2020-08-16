@@ -1,5 +1,6 @@
 package com.jungle.wemall.admin.controller;
 
+import com.jungle.wemall.admin.dto.GoodsAllinone;
 import com.jungle.wemall.admin.service.excel.ExcelRead;
 import com.jungle.wemall.common.util.ResponseUtil;
 import com.jungle.wemall.db.pojo.WemallGoods;
@@ -33,8 +34,8 @@ public class AdminGoodsController {
     }
 
     @PostMapping("/create")
-    public Object createGoods(@RequestBody WemallGoods goods){
-        int result = wemallGoodsService.createGoods(goods);
+    public Object createGoods(@RequestBody GoodsAllinone goodsAllinone){
+        int result = wemallGoodsService.createGoods(goodsAllinone.getGoods(), goodsAllinone.getSpecifications());
         return result == 1 ? ResponseUtil.ok() : ResponseUtil.fail();
     }
 
@@ -52,15 +53,18 @@ public class AdminGoodsController {
 
     @PostMapping("/excel")
     public Object excel(@RequestParam("file") MultipartFile file) throws IOException {
+
         String name = file.getOriginalFilename();
-        System.out.println(name);
-        System.out.println(name.substring(0, 6));
         // 类目id
         Integer categoryId = Integer.parseInt(name.substring(0, 6));
         List<WemallGoods> list = ExcelRead.excelRead(file.getInputStream(), categoryId);
-        int goodsByBatch = wemallGoodsService.createGoodsByBatch(list);
-        if(goodsByBatch > 0){
-            return ResponseUtil.ok(list);
+        int result = 0;
+        for(WemallGoods goods: list){
+            wemallGoodsService.createGoods(goods, goods.getSpecifications());
+            result ++;
+        }
+        if(result == list.size()){
+            return ResponseUtil.ok();
         }
         return ResponseUtil.fail();
     }

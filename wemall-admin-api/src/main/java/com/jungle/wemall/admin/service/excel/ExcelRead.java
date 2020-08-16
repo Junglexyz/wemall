@@ -1,10 +1,12 @@
 package com.jungle.wemall.admin.service.excel;
 
-/**
+/*
  * @description: excel reader
  * @author: jungle
  * @date: 2020-02-18 12:07
- */
+*/
+
+
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.jungle.wemall.db.pojo.WemallGoods;
@@ -28,7 +30,6 @@ public class ExcelRead {
             ExcelReader excelReader = new ExcelReader(inputStream, ExcelTypeEnum.XLS, categoryId, listener);
             excelReader.read();
             List<WemallGoods> datas = listener.getDatas();
-            datas.remove(0);  //把表头去掉，如果需要表头的话，可以把这句话删除掉
             return datas;
         } catch (Exception e) {
             e.printStackTrace();

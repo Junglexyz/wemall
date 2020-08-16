@@ -89,7 +89,7 @@ public class ResponseUtil {
     }
 
     public static Object fail(int errno, String errmsg) {
-        Map<String, Object> obj = new HashMap<String, Object>();
+        Map<String, Object> obj = new HashMap<String, Object>(4);
         obj.put("errno", errno);
         obj.put("errmsg", errmsg);
         return obj;

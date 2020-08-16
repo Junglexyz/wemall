@@ -10,7 +10,6 @@ import com.github.binarywang.wxpay.bean.result.BaseWxPayResult;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
-import com.google.gson.JsonObject;
 import com.jungle.wemall.common.notify.NotifyService;
 import com.jungle.wemall.common.print.PrintService;
 import com.jungle.wemall.common.util.IpUtil;
@@ -18,6 +17,7 @@ import com.jungle.wemall.common.util.ResponseUtil;
 import com.jungle.wemall.db.dao.*;
 import com.jungle.wemall.db.pojo.WemallOrder;
 import com.jungle.wemall.db.pojo.WemallOrderDetail;
+import com.jungle.wemall.db.pojo.WemallUser;
 import com.jungle.wemall.db.pojo.WemallUserAddress;
 import com.jungle.wemall.db.util.FastJsonUtil;
 import com.jungle.wemall.db.util.PrintMouldUtil;
@@ -69,6 +69,8 @@ public class WemallOrderService {
     private PrintService printService;
     @Autowired
     private NotifyService notifyService;
+    @Resource
+    private WemallUserMapper wemallUserMapper;
 
     @Transactional(rollbackFor=Exception.class)
     public Object submitOrder(String body) {
@@ -94,20 +96,19 @@ public class WemallOrderService {
             for(int i = 0; i < listOrders.size(); i ++){
                 listOrders.getJSONObject(i).put(orderIdKey, orderId);
                 // 减库存
-                int reduceResult = wemallGoodsMapper.reduceStock((Integer) listOrders.getJSONObject(i).get(goodsIdKey), (Integer) listOrders.getJSONObject(i).get("number"));
-                if(reduceResult == 0){
+//                int reduceResult = wemallGoodsMapper.reduceStock((Integer) listOrders.getJSONObject(i).get(goodsIdKey), (Integer) listOrders.getJSONObject(i).get("number"));
+                /*if(reduceResult == 0){
                     // 存储库存不够的商品信息
                     sellOutGoods.add(listOrders.getJSONObject(i));
                 } else {
                     reduceGoods.add(listOrders.getJSONObject(i));
-                }
+                }*/
             }
             orders = (List)listOrders;
         }
-        // TODO 恢复库存
+        // 恢复库存
         if(sellOutGoods.size() > 0){
             for(int i = 0; i< reduceGoods.size(); i++){
-                System.out.println(JSONObject.parseObject(reduceGoods.get(0).toString()));
                 JSONObject object = JSONObject.parseObject(reduceGoods.get(0).toString());
                 wemallGoodsMapper.addStock(object.getInteger("goodsId"), object.getInteger("number"));
             }
@@ -132,6 +133,7 @@ public class WemallOrderService {
         Map<String, Object> result = new HashMap<>(4);
         result.put("orderId", orderId);
         result.put("sellOutGoods", sellOutGoods);
+
         return result;
     }
 
@@ -214,7 +216,6 @@ public class WemallOrderService {
             e.printStackTrace();
             return ResponseUtil.fail(1001, "支付失败！");
         }
-        // TODO 随机发放红包
 
         return result;
     }
@@ -239,7 +240,6 @@ public class WemallOrderService {
             e.printStackTrace();
             return WxPayNotifyResponse.fail(e.getMessage());
         }
-        System.out.println("notify");
         WxPayOrderNotifyResult result = null;
         try {
             result = wxPayService.parseOrderNotifyResult(xmlResult);
@@ -253,7 +253,6 @@ public class WemallOrderService {
                 throw new WxPayException("微信通知支付失败！");
             }
         } catch (WxPayException e) {
-            e.printStackTrace();
             logger.error(e.getMessage());
             return WxPayNotifyResponse.fail(e.getMessage());
         }
@@ -261,9 +260,9 @@ public class WemallOrderService {
         logger.info("处理腾讯支付平台的订单支付");
         // 订单编号
         String orderId = result.getOutTradeNo();
-        // TODO 修改订单状态
         // 生成取件码
         int day = LocalDate.now().getDayOfMonth();
+        // 前缀为日期 后缀为订单编号后四位
         String prefix = day < 10 ? "0"+day : String.valueOf(day);
         String pickupCode = prefix + orderId.substring(10,14);
         Map<String, Object> updateStatus = new HashMap<>(4);
@@ -272,6 +271,7 @@ public class WemallOrderService {
         updateStatus.put("orderId",orderId);
         updateStatus.put("packupCode", pickupCode);
         int updateResult = wemallOrderMapper.updateByMap(updateStatus);
+        WemallOrder wemallOrder = wemallOrderMapper.selectByOrderId(orderId);
 
         String openId = result.getOpenid();
         String totalFee = BaseWxPayResult.fenToYuan(result.getTotalFee());
@@ -281,23 +281,25 @@ public class WemallOrderService {
         params.put("openId",openId);
         params.put("orderId", orderId);
         params.put("payMoney", totalFee);
-        params.put("orderType", result.getTotalFee() >= 188*100 ? "送货上门订单" : "到店自取订单");
-        params.put("tip", result.getTotalFee() >= 188*100 ? "送货上门订单" : "凭提货单号取货");
+        params.put("orderType",  "1".equals(wemallOrder.getDeliveryWay()) ? "送货上门订单" : "到店自取订单");
+        params.put("tip", "1".equals(wemallOrder.getDeliveryWay()) ? "送货上门订单" : "凭提货单号取货");
         notifyService.sendCheckSuccessMessage(params);
 
         logger.info("打印小票");
         // 打印小票  1: 送货上门
-        WemallOrder wemallOrder = wemallOrderMapper.selectByOrderId(orderId);
         // 配送方式 1:送货上门
         String deliveryWay = "1";
         if(deliveryWay.equals(wemallOrder.getDeliveryWay())){
+            // 送货
             WemallUserAddress address = wemallUserAddressMapper.selectByPrimaryKey(wemallOrder.getAddressId());
             List<WemallOrderDetail> orderDetails = wemallOrderDetailMapper.selectByOrderId(orderId);
-            String content = PrintMouldUtil.getContent(wemallOrder, address, orderDetails, address.getMobile());
+            String content = PrintMouldUtil.getContent(wemallOrder, address, orderDetails, null);
             printService.print(content);
         } else{
+            // 到店
+            WemallUser wemallUser = wemallUserMapper.selectByPrimaryKey(wemallOrder.getUserId());
             List<WemallOrderDetail> orderDetails = wemallOrderDetailMapper.selectByOrderId(orderId);
-            String content = PrintMouldUtil.getContent(wemallOrder, null, orderDetails, null);
+            String content = PrintMouldUtil.getContent(wemallOrder, null, orderDetails, wemallUser.getMobile());
             printService.print(content);
         }
         // TODO 随机发放红包*
@@ -306,5 +308,9 @@ public class WemallOrderService {
                 "  <return_code><![CDATA[SUCCESS]]></return_code>\n" +
                 "  <return_msg><![CDATA[OK]]></return_msg>\n" +
                 "</xml>";
+    }
+
+    public List<Map<String, Object>> sumOrder(Map order){
+        return wemallOrderDetailMapper.sumOrder(order);
     }
 }

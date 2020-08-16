@@ -13,10 +13,12 @@
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="deleted" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="coupon" javaType="java.lang.String" jdbcType="CHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, pid, icon_url, pic_url, level, sort_order, create_time, update_time, deleted
+    id, name, pid, icon_url, pic_url, level, sort_order, create_time, update_time, deleted, 
+    coupon
   </sql>
   <!--自定义-->
   <select id="selectByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -24,10 +26,12 @@
     <include refid="Base_Column_List" />
     from wemall_category
     where pid = #{pid,jdbcType=INTEGER}
+    order by sort_order
   </select>
   <delete id="deleteByPid" parameterType="java.lang.Integer">
     delete from wemall_category
     where pid = #{pid,jdbcType=INTEGER}
+    order by sort_order
   </delete>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -43,11 +47,11 @@
     insert into wemall_category (id, name, pid, 
       icon_url, pic_url, level, 
       sort_order, create_time, update_time, 
-      deleted)
+      deleted, coupon)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
       #{iconUrl,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleted,jdbcType=BIT})
+      #{deleted,jdbcType=BIT}, #{coupon,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jungle.wemall.db.pojo.WemallCategory">
     insert into wemall_category
@@ -82,6 +86,9 @@
       <if test="deleted != null">
         deleted,
       </if>
+      <if test="coupon != null">
+        coupon,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -113,6 +120,9 @@
       </if>
       <if test="deleted != null">
         #{deleted,jdbcType=BIT},
+      </if>
+      <if test="coupon != null">
+        #{coupon,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -146,6 +156,9 @@
       <if test="deleted != null">
         deleted = #{deleted,jdbcType=BIT},
       </if>
+      <if test="coupon != null">
+        coupon = #{coupon,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -159,7 +172,9 @@
       sort_order = #{sortOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT}
+      deleted = #{deleted,jdbcType=BIT},
+      coupon = #{coupon,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

@@ -24,9 +24,11 @@ public class WemallCategory {
 
     private Boolean deleted;
 
-    public List<WemallCategory> children;
+    private String coupon;
 
-    public WemallCategory(Integer id, String name, Integer pid, String iconUrl, String picUrl, String level, Integer sortOrder, Date createTime, Date updateTime, Boolean deleted) {
+    private List<WemallCategory> children;
+
+    public WemallCategory(Integer id, String name, Integer pid, String iconUrl, String picUrl, String level, Integer sortOrder, Date createTime, Date updateTime, Boolean deleted, String coupon) {
         this.id = id;
         this.name = name;
         this.pid = pid;
@@ -37,6 +39,11 @@ public class WemallCategory {
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.deleted = deleted;
+        this.coupon = coupon;
+    }
+
+    public WemallCategory() {
+        super();
     }
 
     public List<WemallCategory> getChildren() {
@@ -45,10 +52,6 @@ public class WemallCategory {
 
     public void setChildren(List<WemallCategory> children) {
         this.children = children;
-    }
-
-    public WemallCategory() {
-        super();
     }
 
     public Integer getId() {
@@ -129,5 +132,13 @@ public class WemallCategory {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(String coupon) {
+        this.coupon = coupon == null ? null : coupon.trim();
     }
 }

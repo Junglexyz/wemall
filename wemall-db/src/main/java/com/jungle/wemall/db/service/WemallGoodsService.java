@@ -1,10 +1,13 @@
 package com.jungle.wemall.db.service;
 
 import com.jungle.wemall.db.dao.WemallGoodsMapper;
+import com.jungle.wemall.db.dao.WemallGoodsSpecificationMapper;
 import com.jungle.wemall.db.pojo.WemallGoods;
+import com.jungle.wemall.db.pojo.WemallGoodsSpecification;
 import com.jungle.wemall.db.util.FastJsonUtil;
 import com.jungle.wemall.db.util.JacksonUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -22,6 +25,10 @@ public class WemallGoodsService {
     @Resource
     WemallGoodsMapper wemallGoodsMapper;
 
+    @Resource
+    WemallGoodsSpecificationMapper wemallGoodsSpecificationMapper;
+
+
     public int insertGoods(WemallGoods goods){
         return  wemallGoodsMapper.insertSelective(goods);
     }
@@ -35,10 +42,14 @@ public class WemallGoodsService {
         Integer page = FastJsonUtil.getInteger(body, "page");
         Integer categoryId = FastJsonUtil.getInteger(body, "categoryId");
         String status = FastJsonUtil.getString(body, "status");
+        String title = FastJsonUtil.getString(body, "title");
         Map<String, Object> data = new HashMap<>();
         data.put("page", (page - 1) * 10);
         data.put("pageSize", 10);
         data.put("categoryId", categoryId);
+        if(!("").equals(title) && title != "" && title != null ){
+            data.put("title", "%"+title+"%");
+        }
         if(status != null){
             data.put("status", status);
         }
@@ -50,8 +61,13 @@ public class WemallGoodsService {
         return  result;
     }
 
-    public int createGoods(WemallGoods goods){
-        return wemallGoodsMapper.insertSelective(goods);
+    public int createGoods(WemallGoods goods, List<WemallGoodsSpecification> specifications){
+        wemallGoodsMapper.insertSelective(goods);
+        for(WemallGoodsSpecification specification: specifications){
+            specification.setGoodsId(goods.getGoodsId());
+            wemallGoodsSpecificationMapper.insertSelective(specification);
+        }
+        return 1;
     }
 
     public int createGoodsByBatch(List<WemallGoods> goodsList){
@@ -91,4 +107,17 @@ public class WemallGoodsService {
         return wemallGoodsMapper.search(like);
     }
 
+    public WemallGoods singleGoods() {
+        return wemallGoodsMapper.single();
+    }
+
+    @Transactional(rollbackFor=Exception.class)
+    public int updatePrice(WemallGoods goods, List<WemallGoodsSpecification> specifications) {
+        wemallGoodsMapper.updateByPrimaryKeySelective(goods);
+        wemallGoodsSpecificationMapper.updateByPrimaryKeySelective(specifications.get(0));
+        if(specifications.size() == 2){
+            wemallGoodsSpecificationMapper.insertSelective(specifications.get(1));
+        }
+        return 1;
+    }
 }
