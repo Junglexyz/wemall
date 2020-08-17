@@ -22,11 +22,12 @@
 	</view>
 	<!--特价专区-->
 	<view class="special">
+    <!-- <view bindtap="camera">价格</view> -->
 		<view class="special-title" wx:if="{{specialGoods !=0 }}">今日·特价</view>
 		<view class="special-list">
 			<view class="special-item" wx:for="{{specialGoods}}" wx:for-item="special" wx:key="special" bindtap="navigateToGoods" data-index="0" data-categoryId="{{listCategory[0].id}}">
 				<view class="special-left">
-					<image class="special-img" src="{{special.cover}}"></image>
+					<image class="special-img" src="{{special.cover+'?x-oss-process=image/auto-orient,1/quality,q_40'}}"></image>
 				</view>
 				<view class="special-right">
 					<view class="special-name">{{special.title}}</view>

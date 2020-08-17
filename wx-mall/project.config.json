@@ -24,7 +24,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.4",
-	"appid": "wx53cbee1371c086ad",
+	"appid": "wx51f923a19b244ed5",
 	"projectname": "wx-mall",
 	"debugOptions": {
 		"hidedInDevtools": []
@@ -60,7 +60,7 @@
 					"id": 0,
 					"name": "支付结果",
 					"pathName": "pages/checkout/result/result",
-					"query": "status=0&payMoney=100.00",
+					"query": "status=1&payMoney=100",
 					"scene": null
 				},
 				{
@@ -74,6 +74,77 @@
 					"id": -1,
 					"name": "商品搜索",
 					"pathName": "pages/goods/search/search",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商家地址地图",
+					"pathName": "pages/checkout/map/map",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 4,
+					"name": "微服务",
+					"pathName": "pages/ucenter/service/service",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "店铺简介",
+					"pathName": "pages/ucenter/shopInfo/shopInfo",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商品上传",
+					"pathName": "pages/upload/upload",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "地址编辑",
+					"pathName": "pages/address/address/create",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的地址",
+					"pathName": "pages/address/address",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "地图-红包",
+					"pathName": "pages/checkout/map/map",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "特惠活动",
+					"pathName": "pages/activity/activity",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "创建地址",
+					"pathName": "pages/address/address/create",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "车次时刻表",
+					"pathName": "pages/ucenter/service/busTime/busTime",
+					"query": "",
 					"scene": null
 				}
 			]

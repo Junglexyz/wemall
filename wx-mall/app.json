@@ -8,6 +8,8 @@
     "pages/ucenter/coupon/coupon",
     "pages/ucenter/balance/detail/detail",
     "pages/ucenter/balance/balance",
+    "pages/ucenter/service/service",
+    "pages/ucenter/service/busTime/busTime",
     "pages/order/order",
     "pages/ucenter/ucenter",
     "pages/auth/accountLogin/accountLogin",
@@ -15,12 +17,14 @@
     "pages/checkout/checkout",
     "pages/checkout/result/result",
     "pages/address/address",
-    "pages/address/address/create"
+    "pages/address/address/create",
+    "pages/upload/upload",
+    "pages/activity/activity"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "双安文承维生活超市+",
+    "navigationBarTitleText": "双安文承维生活超市",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

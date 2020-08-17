@@ -16,14 +16,18 @@ Page({
       isDefault: 0,
       town: '',
       village: '',
-      groups: ''
+      groups: '',
+      goUp: false,
+      province: 0 //楼层
     },
     city: '',//存放地区
     station: '',//存放维修站
     perList: '',// 存放维修人员
     multiArray: [[], [], []],
-    multiIndex: [0, 0, 0],
-    update: false
+    multiIndex: [-1, -1, -1],
+    update: false,
+    goUp: false, //上楼
+    
   },
 
   /**
@@ -41,14 +45,19 @@ Page({
       let address = that.data.address
       address.name = options.name
       address.tel = options.tel
-      address.addressDetail = options.address
+      address.province = options.province
+      if(options.address == 'undefined'){
+        address.addressDetail = ''
+      } else {
+        address.addressDetail = options.address
+      }
       address.isDefault = options.isDefault
       address.id = options.id
-      console.log(multiArray)
       this.getCityStationPer()
       that.setData({
         address: address,
-        update: true
+        update: true,
+        goUp: (parseInt(address.province) > 1 )
       })
     }else {
       wx.setNavigationBarTitle({
@@ -86,6 +95,24 @@ Page({
       address: address
     });
   },
+  switchSelect(e){
+    console.log(e)
+    let value = e.detail.value
+    let address = this.data.address;
+    address.goUp = value;
+    this.setData({
+      goUp: value,
+      address: address
+    })
+  },
+  floorChange(e){
+    let address = this.data.address;
+    address.province = e.detail.value;
+    console.log(address)
+    this.setData({
+      address: address
+    });
+  },
   /**
   * 保存地址
   */
@@ -97,6 +124,55 @@ Page({
     if (userInfo != null) {
       userId = userInfo.userId
     }
+    if (address.name == '' || address.name == null){
+      wx.showToast({
+        title: '姓名不能为空',
+        icon: 'none'
+      })
+      return
+    }
+    if (address.tel == '' || address.tel == null) {
+      wx.showToast({
+        title: '手机号码不能为空',
+        icon: 'none'
+      })
+      return
+    }
+    if (address.tel.length != 11) {
+      wx.showToast({
+        title: '手机号码错误',
+        icon: 'none'
+      })
+      return
+    }
+    if (address.town == '' || address.town == null){
+      wx.showToast({
+        title: '请选择地址',
+        icon: 'none'
+      })
+      return
+    }
+    if (address.village == '' || address.village == null) {
+      wx.showToast({
+        title: '请选择地址',
+        icon: 'none'
+      })
+      return
+    }
+    if (address.groups == '' || address.groups == null) {
+      wx.showToast({
+        title: '请选择地址',
+        icon: 'none'
+      })
+      return
+    }
+    if ((address.town != '到店自取') && (address.addressDetail == '' || address.addressDetail == null)) {
+      wx.showToast({
+        title: '详细地址不能为空',
+        icon: 'none'
+      })
+      return
+    }
     let data = {
       userId: userId,
       mobile: address.tel,
@@ -105,7 +181,8 @@ Page({
       village: address.village,
       groups: address.groups,
       address: address.addressDetail,
-      defaulted: address.isDefault ? 1 : 0
+      defaulted: address.isDefault ? 1 : 0,
+      province: address.province // 楼层及费用
     }
     util.wxRequest(app.globalData.url + 'wx/address/create', data, "post").then(res => {
       let data = res.data
@@ -133,6 +210,7 @@ Page({
     if (userInfo != null) {
       userId = userInfo.userId
     }
+    console.log(address.isDefault)
     let data = {
       id: address.id,
       userId: userId,
@@ -142,7 +220,8 @@ Page({
       village: address.village,
       groups: address.groups,
       address: address.addressDetail,
-      defaulted: address.isDefault ? 1 : 0
+      province: address.province,
+      defaulted: address.isDefault == 1 ? 1 : 0
     }
     util.wxRequest(app.globalData.url + 'wx/address/update', data, "post").then(res => {
       let data = res.data
@@ -169,14 +248,22 @@ Page({
   /*****获取地址 */
   getCityStationPer: function () {
     let that = this
+    // that.setData({
+    //   city: ['双安镇', '汉王镇'],//镇
+    //   station: { '双安镇': ['桐安村', '闹河村', '林本河村'], '汉王镇': ['马家营村', '五郎坪村'] },//村
+    //   perList: { '桐安村': ['一组', '二组', '三组'], '闹河村': ['一组', '二组'], '林本河村': ['一组', '二组'], '马家营村': ['一组'], '五郎坪村': ['一组', '二组'] },// 组
+    // })
+    //'五小区': ['1号楼 ', '2号楼 ', '3号楼 ', '4号楼 ', '5号楼 ', '6号楼 ']
+    //'1号楼 ': ['一单元', '二单元'], '2号楼 ': ['一单元', '二单元', '三单元'], '3号楼 ': ['一单元', '二单元', '三单元', '四单元'],'4号楼 ':['一单元'],'5号楼 ': ['一单元'], '6号楼 ': ['一单元']
     that.setData({
-      city: ['双安镇', '汉王镇'],//镇
-      station: { '双安镇': ['桐安村', '闹河村', '林本河村'], '汉王镇': ['马家营村', '五郎坪村'] },//村
-      perList: { '桐安村': ['一组', '二组', '三组'], '闹河村': ['一组', '二组'], '林本河村': ['一组', '二组'], '马家营村': ['一组'], '五郎坪村': ['一组', '二组'] },// 组
+      city: ['到店自取', '一小区', '二小区', '三小区', '四小区', '五小区', '街道'],
+      station: { '到店自取': ['到店自取'], '一小区': ['一小区'], '二小区': ['二小区'], '三小区': ['三小区'], '四小区': ['1号楼', '2号楼', '3号楼', '4号楼', '5号楼', '6号楼', '7号楼', '8号楼', '9号楼'], '五小区': ['1号楼 ', '2号楼 ', '3号楼 ', '4号楼 ', '5号楼 ', '6号楼 '], '街道': ['街道'] },
+      perList: { '到店自取': ['到店自取'], '一小区': ['一小区'], '二小区': ['二小区'], '三小区': ['三小区'], '1号楼': ['一单元', '二单元', '三单元', '四单元'], '2号楼': ['一单元', '二单元', '三单元', '四单元'], '3号楼': ['一单元', '二单元'], '4号楼': ['一单元'], '5号楼': ['一单元', '二单元'], '6号楼': ['一单元', '二单元', '三单元', '四单元'], '7号楼': ['一单元', '二单元', '三单元', '四单元'], '8号楼': ['一单元', '二单元', '三单元'], '9号楼': ['一单元'], '1号楼 ': ['一单元', '二单元'], '2号楼 ': ['一单元', '二单元', '三单元'], '3号楼 ': ['一单元', '二单元', '三单元', '四单元'], '4号楼 ': ['一单元'], '5号楼 ': ['一单元'], '6号楼 ': ['一单元'], '街道': ['街道两公里内']}
     })
     that.data.multiArray[0] = that.data.city
-    that.data.multiArray[1] = this.getArr(that.data.city[0], that.data.station);
-    that.data.multiArray[2] = this.getArr(that.data.multiArray[1][0], that.data.perList);
+    that.data.multiArray[1] = this.getArr(that.data.city[0], that.data.station)
+    that.data.multiArray[2] = this.getArr(that.data.multiArray[1][0], that.data.perList)
+    console.log(that.data.multiArray)
     let address = this.data.address;
     address.town = that.data.multiArray[0][that.data.multiIndex[0]]
     address.village = that.data.multiArray[1][that.data.multiIndex[1]]

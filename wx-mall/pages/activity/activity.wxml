@@ -1,0 +1,13 @@
+<!--pages/activity/activity.wxml-->
+<view class="container">
+  <image class="img" mode="aspectFit" src="{{goods.cover}}"></image>
+  <view class="info">
+    <view class="title">{{goods.title}}</view>
+    <view class="price">￥{{goods.sellPrice}}</view>
+  </view>
+  <view class="rules">
+    <view>领取规则</view>
+    <view>1、用户转发本活动页面</view>
+  </view>
+  <view class="btn">领取</view>
+</view>

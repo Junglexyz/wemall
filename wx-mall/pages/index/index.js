@@ -12,16 +12,23 @@ Page({
     listCategory: [],
     specialGoods: []
   },
+  camera(){
+    wx.navigateTo({
+      url: '../upload/upload',
+    })
+  },
   navigateToGoods: function(e){
     let that =this
     let index = e.currentTarget.dataset.index
     let categoryId = e.currentTarget.dataset.categoryid
     app.goodsCategory = {categoryIndex: index, categoryId: categoryId, fromPage: true }
-    wx.reLaunch({
+    wx.navigateTo({
       url: '../goods/goods'
     })
   },
   onLoad: function () {
+    let userInfo = app.globalData.userInfo
+    
     let that = this
     wx.showLoading({
       title: '数据加载中...',
@@ -30,7 +37,7 @@ Page({
     util.wxRequest(app.globalData.url + 'wx/home/index', {}, "post").then(res => {
       let data = res.data
       console.log(res)
-      if(data.errno == 0){
+      if(data.errno == 0){ 
         wx.hideLoading()
         that.setData({
           banners: data.result.listAd,
@@ -88,7 +95,7 @@ Page({
           let subCategory = []
           let child = categories[i].children
           for (let j = 0; j < child.length; j++) {
-            let subObj = { label: child[j].name, value: child[j].id, level: child[j].level, number: 0 }
+            let subObj = { label: child[j].name, value: child[j].id, level: child[j].level, number: 0, coupon: child[j].coupon }
             subCategory.push(subObj)
           }
           let obj = { label: categories[i].name, value: categories[i].id, level: categories[i].level, children: subCategory ,number: 0}

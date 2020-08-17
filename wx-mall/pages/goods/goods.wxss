@@ -138,6 +138,22 @@
   justify-content: center;
   align-items: center;
 }
+.coupon-mark{
+  top: -6rpx;
+  left: 0rpx;
+  font-size: 30rpx;
+  position: absolute;
+  color: #eea949;
+  background: #fff;
+  border-radius: 50%;
+  padding: 5rpx;
+  height: 30rpx;
+  width: 30rpx;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
 /**类目为空页面*/
 .empty{
   display: flex;
@@ -205,6 +221,11 @@
   flex-flow: row nowrap;
   justify-content: space-between;
 }
+.origin-price{
+  color: #8a8a8a;
+  font-size: 24rpx;
+  text-decoration: line-through
+}
 .select{
   display: flex;
   flex-flow: row nowrap;
@@ -212,11 +233,16 @@
   align-items: center;
 }
 .goods-amount{
-  padding: 5rpx
+  padding: 5rpx 10rpx
 }
 .price-text{
   color: #ff0000;
   font-size: 12px
+}
+.discount-price-text{
+  color: #8a8a8a;
+  font-size: 24rpx;
+  text-decoration: line-through
 }
 .add-img{
   width: 50rpx;
@@ -310,7 +336,112 @@
   align-items: center;
 }
 
-.cart-box{
-  
+.img-plus-box{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.295)
+}
+.img-plus{
+  height: 60%;
+  width: 100%
+}
+.img-plus-cancel{
+  height: 88rpx;
+  width: 88rpx
+}
+.img-plus-cancel-box{
+  display: center;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx
+}
+
+.spec-visiable{
+  padding: 8rpx;
+  margin-right: 20rpx;
+  border-radius: 15rpx;
+  font-size: 24rpx;
+  background: #108ee9;
+  position: relative
+}
+.spec-number{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -10rpx;
+  right: -5rpx;
+  background: #f00;
+  color: #fff;
+  border-radius: 50%;
+  padding: 5rpx;
+  font-size: 22rpx
+}
+.spec-box{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  background: #00000025
+}
+.spec-content{
+  width: 85%;
+  background: #fff;
+  padding: 20rpx;
+  border-top-left-radius: 10rpx;
+  border-top-right-radius: 10rpx
+}
+.spec-title{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 10rpx
+}
+.spec-specification{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+.spec-price{
+  color: #f00
+}
+.spec-item{
+  padding: 5rpx 20rpx;
+  border-radius: 5rpx;
+  margin: 10rpx;
+  border: 1rpx solid #7f8285b6
+}
+.spec-item-select{
+  padding: 5rpx 20rpx;
+  border-radius: 5rpx;
+  margin: 10rpx;
+  background: #108fe92f;
+  color: #108ee9;
+  border: 1rpx solid #108ee9
+}
+.spec-cart{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+  padding: 20rpx;
+  background: #e98b10;
+  border-bottom-left-radius: 10rpx;
+  border-bottom-right-radius: 10rpx
 }
 

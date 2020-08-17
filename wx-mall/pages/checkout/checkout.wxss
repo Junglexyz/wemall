@@ -201,25 +201,36 @@
 	width: 100%;
 	height: 60rpx
 }
-.sum{
-	display: flex;
+.full-decrement{
+  display: flex;
 	flex-flow: row nowrap;
 	justify-content: flex-end;
 	align-items: center;
 	width: 100%;
 	height: 60rpx;
+  font-size: 12px;
+  color: #565656
+}
+.sum{
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-end;
+	align-items: flex-end;
+	width: 100%;
 	border-top: 2rpx #aaa dashed
 }
 .sum-of-pre{
 	color: #777;
-	font-size: 11px
+	font-size: 11px;
+  padding: 10rpx
 }
 .sum-of-money{
 	display: flex;
 	flex-flow: row nowrap;
 	color: #777;
 	font-size: 12px;
-	margin-left: 40rpx 
+	margin-left: 40rpx ;
+  padding: 10rpx
 }
 .sum-of-money-text{
 	color: #ff0000
@@ -261,4 +272,7 @@
 	height: 100%;
 	background: #108ee9;
   color:#fff
+}
+.remark-tip{
+  color: #f00
 }

@@ -1,2 +1,5 @@
 <!--pages/goods/detail/detail.wxml-->
-<text>pages/goods/detail/detail.wxml</text>
+<view class="container">
+  <image src="{{goods.cover}}"></image>
+  
+</view>

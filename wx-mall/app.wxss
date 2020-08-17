@@ -1,4 +1,6 @@
 /**app.wxss**/
+/* @import "colorui/main.wxss";
+@import "colorui/icon.wxss";  */
 page{
 	height: 100%;
 	width: 100%
@@ -9,3 +11,6 @@ page{
   padding: 0;
   box-sizing: border-box;
 } 
+.scrollPage {
+  height: 100vh;
+}

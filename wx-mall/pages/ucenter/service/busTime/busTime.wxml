@@ -1,0 +1,24 @@
+<!--pages/ucenter/service/busTime/busTime.wxml-->
+<view class="container">
+  <view class="time-box">
+    <view class="ways text-white bg-blue padding-sm">汉城 - 双安 - 蒿坪 - 安康</view>
+    <view class="time padding-sm margin-left-xl">6:20 / 汉城-双安-蒿坪-安康</view>
+    <view class="time padding-sm margin-left-xl">7:10 / 汉城-双安-蒿坪-安康</view>
+    <view class="time padding-sm margin-left-xl">8:30 / 汉城-双安-蒿坪-安康</view>
+    <view class="time padding-sm margin-left-xl">9:40 / 汉城-双安-蒿坪-安康</view>
+    <view class="time padding-sm margin-left-xl">10:30 / 汉城-双安-蒿坪-安康</view>
+    <view class="time padding-sm margin-left-xl">12:00 / 汉城-双安-蒿坪-安康</view>
+    <view class="time padding-sm margin-left-xl">14:00 / 汉城-双安-蒿坪-安康</view>
+    <view class="time padding-sm margin-left-xl">15:00 / 汉城-双安-蒿坪-安康</view>
+  </view>
+  <view class="contact">
+    <view class="waystext-white bg-blue padding-sm">联系电话(点击电话可直接拨打)</view>
+    <view class="text padding-sm margin-left-xl" bindtap="call" data-phone="13772966868">联系电话1 : <text>18729958555</text></view>
+    <view class="text padding-sm margin-left-xl" >联系电话2 : <text>18291559191</text></view>
+    <view class="text padding-sm margin-left-xl">联系电话3 : <text>13772966868</text></view>
+    <view class="text padding-sm margin-left-xl">联系电话4 : <text>18729457777</text></view>
+    <view class="text padding-sm margin-left-xl">联系电话5 : <text>15129473366</text></view>
+    <view class="text padding-sm margin-left-xl">联系电话6 : <text>13509156667</text></view>
+    <view class="text padding-sm margin-left-xl">联系电话7 : <text>15929519055</text></view>
+  </view>
+</view>

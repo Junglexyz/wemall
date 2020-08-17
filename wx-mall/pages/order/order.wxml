@@ -21,8 +21,8 @@
 			<view class="goods-amount">x{{goods.number}}</view>
 		</view>
     <view class="fold">
-      <view class="fold-box" wx:if="{{orders.orderDetail.length > 2 && orders.fold}}" data-index="{{orderIndex}}" bindtap="unfold">展示更多<image src="/images/arrow-down.png" class="fold-img"></image></view>
-      <view class="fold-box" wx:if="{{orders.orderDetail.length > 2 && !orders.fold}}" data-index="{{orderIndex}}" bindtap="fold">点击收起<image src="/images/arrow-up.png" class="fold-img"></image></view>
+      <view class="fold-box" wx:if="{{orders.orderDetail.length > 5 && orders.fold}}" data-index="{{orderIndex}}" bindtap="unfold">展示更多<image src="/images/arrow-down.png" class="fold-img"></image></view>
+      <view class="fold-box" wx:if="{{orders.orderDetail.length > 5 && !orders.fold}}" data-index="{{orderIndex}}" bindtap="fold">点击收起<image src="/images/arrow-up.png" class="fold-img"></image></view>
     </view>
 		<view class="total" wx:if="{{currentIndex == 1}}">
       <view class="count-down-time">{{orders.leftTime}}分后自动取消订单</view>

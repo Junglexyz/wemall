@@ -41,6 +41,20 @@
   padding: 20rpx;
   color: #ff00009a
 }
+.picker{
+  width: 100%
+}
+.picker-select{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%
+}
+.picker-img{
+  height: 78rpx;
+  width: 78rpx
+}
 .default-input {
   margin: 0 auto;
   display: block;
@@ -180,4 +194,19 @@
   top: 0;
   left: 0;
   z-index: 8;
+}
+.switch-box{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 20rpx
+}
+.radio-group{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  padding: 20rpx
+}
+.radio{
+  padding-top: 20rpx
 }

@@ -1,0 +1,31 @@
+/* pages/activity/activity.wxss */
+.img{
+  width: 100%
+}
+.info{
+  background: #108ee9;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 20rpx;
+  justify-content: center
+}
+.title{
+  color: #fff;
+  padding: 10rpx
+}
+.price{
+  color: #f00;
+  background: #fff;
+  padding: 20rpx
+}
+.btn{
+  background: #108ee9;
+  width: 90%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50rpx;
+  padding: 20rpx;
+  border-radius: 10rpx;
+}

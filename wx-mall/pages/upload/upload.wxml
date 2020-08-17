@@ -1,0 +1,16 @@
+<!--pages/upload/upload.wxml-->
+<view>
+  <image src="{{goods.cover+'?x-oss-process=image/auto-orient,1'}}" class="img"></image>
+  <view>{{goods.title}}</view>
+  <view class="form-item">
+    <input class="input" bindinput="bindinputPrice" placeholder="零售价" value="{{price}}" auto-focus/>
+    <view class="input">{{goods.specifications[0].specifications}}</view>
+  </view>
+  <view class="form-item">
+    <input class="input" bindinput="bindinputTotalPrice" placeholder="整批价格" value="{{totalPrice}}"/>
+    <view>
+      <input class="input" bindinput="bindinputTotalUnit" placeholder="单位" value="{{totalUnit}}"/>
+    </view>
+  </view>
+  <button bindtap="submit" data-goods="{{goods}}">确定</button>
+</view>

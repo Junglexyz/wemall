@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    way: 'home',
+    way: 'mall',
     fold: true,
     goodsList: [],
     preferentialInfos: [], // 优惠详情
@@ -17,7 +17,9 @@ Page({
     discountMoney: 0.00,
     defaultAddress: false,
     address:{},
-    tip: '' // 优惠提示
+    tip: '', // 优惠提示
+    tips: '',
+    fullDecrement: 0.00
   },
   /**
    *选择收货地址
@@ -37,16 +39,31 @@ Page({
     if(way == 'home'){
       if (sumOfMoney < app.globalData.home){
         wx.showToast({
-          title: '满' + app.globalData.home+'元即可配送到家',
+          title: '满' + app.globalData.home + '元指定范围内用户可配送到家',
           icon: 'none',
           duration: 2000
         })
         return
       }
+      let address = that.data.address
+      if (address.province > 0) {
+        let sendCost = parseInt(address.province) - 1
+        that.setData({
+          sumOfMoney: that.data.sumOfMoney + sendCost,
+          sendCost: sendCost 
+        })
+      }
       that.setData({
         way : 'home'
       })
     }else{
+      let sendCost  = that.data.sendCost
+      if(sendCost > 0){
+        that.setData({
+          sumOfMoney: that.data.sumOfMoney - sendCost,
+          sendCost: 0
+        })
+      }
       that.setData({
         way : 'mall'
       })
@@ -78,10 +95,15 @@ Page({
       goodsList: goodsList
     })
   },
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '结算中...',
+      mask: true
+    })
     let userInfo = app.globalData.userInfo
     if (userInfo == null) {
       wx.navigateTo({
@@ -95,8 +117,10 @@ Page({
     let sumOfPre = 0 // 优惠金额
     let sumOfMoney = 0
     let sumOfNumber = 0
+    let fullDecrement = 0 // 满减门槛
     let discountMoney = 0 // 优惠金额
     let tip = ''
+    let tips = ''
     // 汇总订单
     for(let i in goodsObject){
       let goods = goodsObject[i]
@@ -104,15 +128,22 @@ Page({
       if(goods.number == 0 || i.substring(0,1) != 'g'){
         continue
       }
+      if(goods.categoryId == 100029 || goods.categoryId == 100030 || goods.categoryId == 100038){
+        tips = '您的订单存在散装称重商品，该类商品以实际称重为准， 最终结算金额多退少补'
+      }
       sumOfMoney += goods.number * goods.price
       sumOfPre += goods.price
       sumOfNumber += goods.number
-      let goodsObj = {id: goods.id, name: goods.name, number:goods.number, price:goods.number * goods.price, categoryId: goods.categoryId}
+      if(goods.fullDecrement == 1){
+        fullDecrement += goods.number * goods.price
+      }
+      let goodsObj = {id: goods.id, name: goods.name, number:goods.number, price:parseFloat(goods.number * goods.price).toFixed(2), categoryId: goods.categoryId, unit: goods.unit}
       if(goodsList.length <5){
         goodsObj['fold'] = true
       }
       goodsList.push(goodsObj)
     }
+    console.log(sumOfMoney, fullDecrement)
     // 计算优惠详情
     util.wxRequest(app.globalData.url + 'wx/coupon/getCouponByUser', {userId: app.globalData.userInfo.userId}, "post").then(res => {
       console.log(res)
@@ -121,7 +152,8 @@ Page({
         let preferentialInfos = data.list // 优惠券信息
         let coupons = []
         let indepence = false // 不叠加使用的红包标记 true则不享有其他优惠
-        let max = that.max(preferentialInfos, sumOfMoney)
+        let max = that.max(preferentialInfos, fullDecrement)
+        console.log(max)
         if(max.length != 0){
           coupons.push(max) // 最大满减额度
           discountMoney += max.discountMoney
@@ -140,16 +172,20 @@ Page({
             break
           }
         }
-        let address = wx.getStorageSync('selectedAddress') //获取默认地址
+        let address = wx.getStorageSync('selectedAddress') || {} //获取默认地址
         // 不叠加红包使用金额校验
         if (indepence && coupons[0].discountMoney > sumOfMoney){
           wx.showToast({
-            title: '您的红包满' + coupons[0].discountMoney+ '可用',
+            title: '您的红包满' + (coupons[0].discountMoney+0.01)+ '可用',
             icon: 'none'
           })
           discountMoney = 0.00
-          tip = '满' + coupons[0].discountMoney + '可用'
+          tip = '满' + (coupons[0].discountMoney+0.01) + '可用'
         }
+        // 优惠券使用条件
+        // if (indepence && coupons[0].discountMoney < sumOfMoney){
+        //   sumOfMoney = sumOfMoney - discountMoney
+        // }
         if (indepence && coupons[0].discountMoney < sumOfMoney){
           sumOfMoney = sumOfMoney - discountMoney
         }
@@ -158,26 +194,34 @@ Page({
         }
         let way = 'mall'
         // 取货条件
-        // if(sumOfMoney > app.globalData.home){
-        //   way = 'home'
-        // }
-        if (address.id != null) {
+        if(sumOfMoney > app.globalData.home){
+          way = 'home'
+        }
+        if (address.id != null && way == 'home') {
+          let sendCost = 0
+          if (address.province != null && address.province > 0){
+            sendCost = parseInt(address.province) - 1
+          }
           that.setData({
             tip: tip,
+            tips: tips,
             address: address,
             defaultAddress: true,
             goodsList: goodsList,
-            sumOfMoney: sumOfMoney.toFixed(2),
+            sumOfMoney: (sumOfMoney + sendCost).toFixed(2),
             sumOfPre: sumOfPre.toFixed(2),
             sumOfNumber: sumOfNumber,
             fold: true,
             way:way,
             preferentialInfos: coupons,
-            discountMoney: discountMoney
+            discountMoney: discountMoney,
+            sendCost: sendCost,
+            fullDecrement: fullDecrement
           })
         } else {
           that.setData({
             tip: tip,
+            tips: tips,
             goodsList: goodsList,
             sumOfMoney: sumOfMoney.toFixed(2),
             sumOfPre: sumOfPre.toFixed(2),
@@ -185,10 +229,11 @@ Page({
             fold: true,
             way: way,
             preferentialInfos: coupons,
-            discountMoney: discountMoney
+            discountMoney: discountMoney,
+            fullDecrement: fullDecrement
           })
         }
-
+      wx.hideLoading()
       }
     }).catch(err => {
       console.log(err)
@@ -201,7 +246,7 @@ Page({
   pay: function(){
     let that = this
     let address = that.data.address
-    let way = that.data.way == 'home' ? 1 : 2 // 配送方式
+    let way = (that.data.way == 'home' ? 1 : 2) // 配送方式 1送货上门 2到店自取
     if(way == 1 && (Object.keys(address).length == 0 || address == null)){
       wx.showToast({
         title: '请填写地址',
@@ -211,7 +256,7 @@ Page({
     }
     let cart = that.data.goodsList
     let userId = app.globalData.userInfo.userId 
-    let payMoney = that.data.sumOfMoney - that.data.discountMoney // 实付金额 = 订单总额 - 优惠金额
+    let payMoney = that.data.sumOfMoney //- that.data.discountMoney // 实付金额 = 订单总额 - 优惠金额
     let totalMoney = that.data.sumOfMoney // 订单总额
     let discountMoney = that.data.discountMoney // 折扣金额 满减优惠
     let returnMoney = 0  // 返现金额
@@ -238,28 +283,57 @@ Page({
       status: status,
       deliveryWay: way   // 配送方式
     }
+    if (Object.keys(address).length != 0 && address.town == '到店自取'){
+      order.deliveryWay = 2
+    }
+    let sendCost = that.data.sendCost
     if(way == 1){
       order.addressId = address.id
+      order.sendCost = sendCost
     }
+    console.log(order)
     let ordersDetail = [] // 订单详情
     for(let i = 0; i < cart.length; i++){
       let obj = {goodsId: cart[i].id, title: cart[i].name, sellPrice: cart[i].price, number: cart[i].number, categoryId: cart[i].categoryId}
       ordersDetail.push(obj)
-    }
+    } 
 
    // 微信通知
     wx.requestSubscribeMessage({
-      tmplIds: ['HkjYXaPP9mQwvuY1jFKv6fzR37JdLGeLc4yZViySm4Y', '-CScWyI786OP2Iv-TDGYd0t2GDORGOH2OzBkJUE2QE4'],
+      tmplIds: app.globalData.tmplIds,
       success(subscribeRes) {
-        if (subscribeRes['HkjYXaPP9mQwvuY1jFKv6fzR37JdLGeLc4yZViySm4Y'] == 'accept'){
-          console.log(subscribeRes)
+        if (true){
+
+          // wx.showModal({
+          //   title: '确定下单？',
+          //   content: '散装称重商品以实际称重为准，可能存在误差, 最终结算金额多退少补',
+          //   confirmColor: '#108ee9',
+          //   success(res) {
+          //     if (res.confirm) {
+          //       console.log('用户点击确定')
+          //       wx.removeStorage({
+          //         key: 'userInfo',
+          //         success: function (res) {
+          //           console.log('退出成功')
+          //           that.setData({
+          //             isLogin: false
+          //           })
+          //           that.onReady()
+          //         },
+          //       })
+          //     } else if (res.cancel) {
+          //       console.log('用户点击取消')
+          //     }
+          //   }
+          // })
+
           wx.showLoading({
             title: '发起支付',
+            mask: true
           })
           let data = { order: order, orders: ordersDetail, coupons: coupons }
           util.wxRequest(app.globalData.url + 'wx/order/submit', data, "post").then(submitRes => {
             let data = submitRes.data
-            console.log(data)
             if (data.errno == 0) {
               let sellOutGoodsLength = data.result.sellOutGoods.length
               let sellOutGoods = data.result.sellOutGoods
@@ -327,6 +401,7 @@ Page({
                     }
                   });
                   // 支付成功
+                  that.removeCategoryMark()
                 }
               }).catch(payRequestErr => {
                 console.log(payRequestErr)
@@ -336,7 +411,21 @@ Page({
             console.log(submitErr)
           })
         } else{
-          
+          wx.showModal({
+            title: '打开支付失败',
+            content: '请打开微信通知以便后续收取订单相关通知',
+            confirmColor: '#108ee9',
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.openSetting({
+                  
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
         }
       },
       fail(subscribeErr) {
@@ -363,6 +452,21 @@ Page({
     return categories
   },
   /**
+   * 清楚目录数量提示
+   */
+  removeCategoryMark() {
+    let that = this
+    let categories = app.categories
+    for (let i = 0; i < categories.length; i++) {
+      let children = categories[i].children
+      for (let j = 0; j < children.length; j++) {
+        app.categories[i].number = 0
+        app.categories[i]['children'][j].number = 0
+      }
+    }
+    app.categories = categories
+  },
+  /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
@@ -374,11 +478,18 @@ Page({
    */
   onShow: function () {
     let that = this
-    let address = wx.getStorageSync('selectedAddress')
+    let address = wx.getStorageSync('selectedAddress') || {}
+    let way = that.data.way
+    console.log(address)
+    let sendCost = 0
+    if (address.province != null && address.province > 0) {
+      sendCost = parseInt(address.province - 1)
+    }
     if(address.id != null){
       that.setData({
         address: address,
-        defaultAddress: true
+        defaultAddress: true,
+        sendCost: way == 'home' ? sendCost : 0
       })
     }
   },

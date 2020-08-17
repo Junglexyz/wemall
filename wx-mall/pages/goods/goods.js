@@ -17,13 +17,87 @@ Page({
     categoryId: 0,
     top: 0,
     currentCategory: 0,
-    subCurrentCategory: 0
+    subCurrentCategory: 0,
+    goodsPlus: false,
+    goodsUrl: '',
+    specVisiable: false,
+    goodsItem: {},
+    coupon: 0, //是否满减
+  },
+  imgPlus(e){
+    let cover = e.currentTarget.dataset.cover
+    this.setData({
+      goodsPlus: true,
+      goodsUrl: cover
+    })
+  },
+  cancelPlus(){
+    this.setData({
+      goodsPlus: false
+    })
   },
 
   search(){
     wx.navigateTo({
       url: './search/search',
     })
+  },
+  /**
+   * 选规格窗口
+   */
+  specVisiable(e){
+    let that = this
+    let specVisiable = that.data.specVisiable
+    let cart = that.data.cart
+    if(specVisiable == true){
+      this.setData({
+        specVisiable: false
+      })
+      return 
+    }
+    let goodsItem = e.currentTarget.dataset.goodsitem
+    if (cart['g' + goodsItem.goodsId] != null && cart['g'+goodsItem.goodsId].number > 0){
+      goodsItem.sellPrice = cart['g' + goodsItem.goodsId].price
+      goodsItem.unit = goodsItem.unit
+      goodsItem.specId = cart['g' + goodsItem.goodsId].specId
+    } else {
+      // 默认选中第一个规格值
+      goodsItem.sellPrice = goodsItem.specifications[0].price
+      goodsItem.unit = goodsItem.specifications[0].specification
+      goodsItem.specId = goodsItem.specifications[0].id
+    }
+    this.setData({
+      specVisiable: !specVisiable,
+      goodsItem: goodsItem
+    })
+  },
+  /**
+   * 选规格
+   * 选中项改变sellPrice为当前售价
+   * 
+   */
+  selectSpecification(e){
+    let that = this
+    let spec = e.currentTarget.dataset.spec
+    let goodsItem = that.data.goodsItem
+    let categories = that.data.categories
+    let cart = that.data.cart
+    let key = 'g' + spec.goodsId
+    if (cart[key] != null && cart[key].specId != null && cart[key].specId != spec.id) {
+      cart[key].price = goodsItem.sellPrice
+      categories = that.categoryMark(that.data.currentCategory, that.data.subCurrentCategory, -cart[key].number)
+      cart[key].number = 0
+    }
+    goodsItem.sellPrice = spec.price
+    goodsItem.unit = spec.specification
+    goodsItem.specId = spec.id
+    that.setData({
+      goodsItem: goodsItem,
+      cart: cart,
+      categories: categories
+    })
+    wx.setStorageSync("cart", cart)
+    this.calCart(cart)
   },
 
   /**
@@ -35,6 +109,10 @@ Page({
     let index = e.currentTarget.dataset.index
     let categories = that.data.categories || app.categories
     let subCurrentCategory = categories[index].children[0].value
+    console.log(categories[index].children[0].coupon)
+    that.setData({
+      coupon: categories[index].children[0].coupon
+    })
     that.loadCategory(categoryId, subCurrentCategory)
   },
   /**
@@ -80,9 +158,11 @@ Page({
   subChangeCategory: function (e) {
     let that = this
     let subCategoryId = e.currentTarget.dataset.subid
+    let coupon = e.currentTarget.dataset.coupon
     that.getListGoods(subCategoryId)
     that.setData({
-      subCurrentCategory: subCategoryId
+      subCurrentCategory: subCategoryId,
+      coupon: coupon
     })
   },
   /**
@@ -93,36 +173,45 @@ Page({
     let goods = e.currentTarget.dataset.goods
     let goodsName = goods.title
     let goodsPrice = goods.sellprice
+    let coupon = e.currentTarget.dataset.coupon
     let special = goods.special // 是否特价商品
     let id = goods.goodsId //获取商品id
-
+    console.log(coupon)
     let key = 'g' + id
     let cart = that.data.cart
     let isFirstAdd = true;
     let categories = null
     // 判断是否第一次加购物车
     if (null != cart[key] && cart[key].id == id) {
-      if (cart[key].number >= 1 && special){
-        wx.showToast({
-          title: '该商品限购一份',
-          icon: 'none'
-        })
-        return
+      // if (cart[key].number >= 1 && special){
+      //   wx.showToast({
+      //     title: '该商品限购一份',
+      //     icon: 'none'
+      //   })
+      //   return
+      // }
+      if (cart[key].specId != null && cart[key].specId != goods.specId){
+        cart[key].price = goods.sellPrice
+        cart[key].unit = goods.unit
+        categories = that.categoryMark(that.data.currentCategory, that.data.subCurrentCategory, -cart[key].number)
+        cart[key].number = 0
+      } else {
+        cart[key].number = cart[key].number + 1
+        isFirstAdd = false
+        categories = that.categoryMark(that.data.currentCategory, that.data.subCurrentCategory, 1)
       }
-      cart[key].number = cart[key].number + 1
-      isFirstAdd = false
-      categories = that.categoryMark(that.data.currentCategory,that.data.subCurrentCategory, 1)
-        // break
     }
     // 第一次加入购物车
     if (isFirstAdd) {
-      cart[key] = { id: goods.goodsId, number: 1, price: goods.sellPrice, name: goods.title ,categoryId: goods.categoryId}
+
+      cart[key] = { id: goods.goodsId, number: 1, price: goods.sellPrice, name: goods.title, categoryId: goods.categoryId, specId: goods.specId, unit: goods.unit, fullDecrement: coupon}
       categories = that.categoryMark(that.data.currentCategory, that.data.subCurrentCategory, 1)
     }
     that.setData({
       cart: cart,
       categories: categories
     })
+    console.log(cart)
     wx.setStorageSync("cart", cart)
     this.calCart(cart)
   },
@@ -132,6 +221,7 @@ Page({
   categoryMark(categoryId, subCayegoryId, number){
     let that = this
     let categories = that.data.categories
+    console.log(categories)
     for(let i = 0; i < categories.length; i ++){
       if(categories[i].value == categoryId){
         categories[i].number += number
@@ -151,14 +241,17 @@ Page({
   reduceCart: function (e) {
     let that = this
     let id = e.currentTarget.dataset.id //获取商品id
-    let key = 'g' + id
+    let goods = e.currentTarget.dataset.goods
+    let key = 'g' + goods.goodsId
     let cart = that.data.cart
+    console.log(goods)
+    console.log(cart)
     let categories = null
     // 删除购物车
     if (cart[key].number <= 0){
       return
     }
-    if (null != cart[key] && cart[key].id == id) {
+    if (null != cart[key] && cart[key].id == goods.goodsId) {
       cart[key].number = cart[key].number - 1
       categories = that.categoryMark(that.data.currentCategory, that.data.subCurrentCategory, -1)
     }
@@ -235,7 +328,8 @@ Page({
     let categoryId = category.categoryId
     that.setData({
       categories: categories,
-      cart: cart
+      cart: cart,
+      coupon: categories[index].children[0].coupon
     })
     that.calCart(cart)
     let subCurrentCategory = categories[index].children[0].value

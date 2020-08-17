@@ -11,7 +11,7 @@
 			<view class="address-left" bindtap="getAddress" data-index="{{index}}">
 				<view class="address">
           <text class="defaluted" wx:if="{{address.defaulted == '1'}}">默认</text>
-          {{address.town}} {{address.address}}
+          {{address.town}} {{address.village}} {{address.groups}} {{address.address}}
         </view>
 				<view class="user-info">{{address.username}} {{address.mobile}}</view>
 			</view>

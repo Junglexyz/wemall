@@ -1,0 +1,16 @@
+/* pages/upload/upload.wxss */
+.form-item{
+	padding-bottom: 20rpx;
+	width: 100%;
+	border-bottom: 3rpx #ccc solid;
+  margin-top: 20px;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+}
+.input{
+	padding: 20rpx;
+}
+.img{
+  height: 300px
+}

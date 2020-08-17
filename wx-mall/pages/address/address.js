@@ -62,8 +62,9 @@ Page({
     let groups = _address.groups
     let addressDetail = _address.address
     let isDefault = _address.defaulted
+    let province = _address.province
     wx.navigateTo({
-      url: './address/create?id='+id+'&name='+name+'&tel='+tel+'&town='+town+'&village='+village+'&groups='+groups+'&address='+addressDetail+'&isDefault='+isDefault
+      url: './address/create?id='+id+'&name='+name+'&tel='+tel+'&town='+town+'&village='+village+'&groups='+groups+'&address='+addressDetail+'&isDefault='+isDefault+'&province='+province
     })
   },
   /**

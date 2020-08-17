@@ -20,3 +20,15 @@
     </view>
   </view>
 </view>
+
+<view class='content'>
+  <view class="showHongbao" wx:if="{{show}}">
+    <view class='hb_head' style='border-radius: {{hb_head_radius}}rpx {{hb_head_radius}}rpx 0 0;'></view>
+    <view class='hb_body' style='top:{{hb_body_top}}rpx;border-radius: {{hb_body_radius_shang}}rpx {{hb_body_radius_shang}}rpx {{hb_body_radius_xia}}rpx {{hb_body_radius_xia}}rpx;z-index: {{hb_body_zindex}};'></view>
+    <view class='hb_open' style='top:{{hd_open_top}}rpx;' bindtap='openHongbao' wx:if="{{show_open}}"><text>开</text></view>
+    <view class='hb_money' style='top:{{hb_money_top}}rpx;'><text>{{info}}</text></view>
+    <view class='hb_foot'>
+      <image wx:if="{{!show_open}}" src="/images/cancel.png" class="img" bindtap="cancel"></image>
+    </view>
+  </view>
+</view>

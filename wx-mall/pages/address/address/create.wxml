@@ -8,22 +8,41 @@
 	    <view class="form-item">
 	      <input class="input" bindinput="bindinputMobile" value="{{address.tel}}" placeholder="手机号码" />
 	    </view>
-      <view class="tip">目前仅在双安镇街道范围内配送，敬请谅解</view>
-      <!-- <view class="form-item">
-        <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+      <view class="tip">试运营期间仅配送双安镇街道及小区楼下，送货上楼需另附费用。敬请谅解</view>
+      <view class="form-item">
+        <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}" class="picker">
             <view class="picker">
-              {{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
+              <view wx:if="{{multiIndex[0] == -1}}" class="picker-select">
+                <view>选择地址</view>
+                <image src="/images/arrow.png" class="picker-img"></image>
+              </view>
+              <view wx:else>
+                {{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
+              </view>
             </view>
         </picker>
-      </view> -->
+      </view>
 	    <view class="form-item">
-	      <input class="input" bindinput="bindinputAddress" value="{{address.addressDetail}}" placeholder="详细地址, 如街道、楼盘号等" />
+	      <input class="input" bindinput="bindinputAddress" value="{{address.addressDetail}}" placeholder="详细地址,填写门牌号" />
 	    </view>
+      <view class="switch-box">
+        <view>送货上楼</view>
+        <switch bindchange="switchSelect" checked="{{goUp}}"></switch>
+      </view>
+      <radio-group bindchange="floorChange" wx:if="{{goUp}}" class="radio-group">
+        <radio value='1' class="radio" checked="{{address.province == 1}}">一楼0元</radio>
+        <radio value='2' class="radio" checked="{{address.province == 2}}">二楼1元</radio>
+        <radio value='3' class="radio" checked="{{address.province == 3}}">三楼2元</radio>
+        <radio value='4' class="radio" checked="{{address.province == 4}}">四楼3元</radio>
+        <radio value='5' class="radio" checked="{{address.province == 5}}">五楼4元</radio>
+        <radio value='6' class="radio" checked="{{address.province == 6}}">六楼5元</radio>
+        <radio value='7' class="radio" checked="{{address.province == 7}}">七楼6元</radio>
+        <radio value='8' class="radio" checked="{{address.province == 8}}">八楼7元</radio>
+      </radio-group>
 	    <view class="form-default">
 	      <text bindtap="bindIsDefault" class="default-input {{address.isDefault == 1 ? 'selected' : ''}}">设为默认地址</text>
 	    </view>
 	  </view>
-
 	  <view class="btns">
 	    <button class="cannel" bindtap="cancelAddress">取消</button>
 	    <button wx:if="{{!update}}" class="save" bindtap="saveAddress">保存</button>

@@ -9,10 +9,10 @@
 		</view>
 		<view class="header-right">
 			<!-- <image class="wechat-img" src="/images/wechat.png" mode="scaleToFill"></image> -->
-			<view class="cus">
-		      <button open-type="contact" class="cus-btn"></button>
-		      <image class="cus-img" src="/images/wechat.png"></image>
-          <view class="cus-text">联系商家</view>
+			<view class="cust">
+		      <button open-type="contact" class="cust-btn"></button>
+		      <image class="cust-img" src="/images/wechat.png"></image>
+          <view class="cust-text">联系商家</view>
 		    </view>
 		</view>
 	</view>
@@ -33,7 +33,7 @@
 			<image class="small-img" src="/images/order.png" mode="scaleToFill"></image>
 			<view class="">简介</view>
 		</view>
-		<view class="remark-text">主营:烟酒副食干货</view>
+		<view class="remark-text">{{shopInfo.brief}}</view>
 		<view class="out-img item">
 			<image class="small-img" src="/images/photo.png" mode="scaleToFill"></image>
 			<view class="">店铺照片</view>

@@ -45,6 +45,12 @@ function wxRequest(url, data = {}, method = "POST") {
         'Wemall-Token': token
       },
       success: function (res) {
+        if(res.data.errno == 501){
+          wx.removeStorageSync('userInfo')
+          wx.navigateTo({
+            url: '/pages/auth/accountLogin/accountLogin',
+          })
+        }
         resolve(res);
       },
       fail: function (error) {

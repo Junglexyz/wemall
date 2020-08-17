@@ -3,7 +3,7 @@
 	<view class="delivery-way">
 		<view class="to-home" wx:if="{{way == 'home'}}">
 			<view class="select-way">
-				<view class="home center-item {{way == 'home' ? 'way' : ''}}" bindtap="selectWay" data-way="home">免费配送</view>
+				<view class="home center-item {{way == 'home' ? 'way' : ''}}" bindtap="selectWay" data-way="home">配送</view>
 				<view class="mall center-item {{way == 'mall' ? 'way' : ''}}" bindtap="selectWay" data-way="mall">到店自取</view>
 			</view>
 			<view class="address" bindtap="selectAddress">
@@ -13,35 +13,35 @@
 			    </view>
 			    <view class="address-left" wx:if="{{defaultAddress}}">
 			    	<view class="address-item">
-						<view class="address-detail">{{address.town}} {{address.address}}</view>
+						<view class="address-detail">{{address.town}} {{address.village}} {{address.groups}} {{address.address}}</view>
 						<view class="user-info">{{address.username}} {{address.mobile}}</view>
 					</view>
 			    </view>
 				<image class="small-img" src="/images/arrow.png"></image>
 			</view>
 			<view class="to-home-time">
-				<image class="small-img" src="/images/express.png"></image>
-				<text class="">24小时内配送到家</text>
+				<!-- <image class="small-img" src="/images/express.png"></image>
+				<text class="">12小时内配送到家</text> -->
 			</view>
 		</view>
 		<view class="go-mall" wx:if="{{way == 'mall'}}">
 			<view class="select-way">
-				<view class="home center-item {{way == 'home' ? 'way' : ''}}" bindtap="selectWay" data-way="home">免费配送</view>
+				<view class="home center-item {{way == 'home' ? 'way' : ''}}" bindtap="selectWay" data-way="home">配送</view>
 				<view class="mall center-item {{way == 'mall' ? 'way' : ''}}" bindtap="selectWay" data-way="mall">到店自取</view>
 			</view>
 			<view class="pickup-address">
 				<view class="padding-top20">商家地址</view>
 				<view class="pickup-address-details padding-top10">双安镇文承维生活超市</view>
-				<view class="map-text padding-top10">查看地图</view>
+				<!-- <view class="map-text padding-top10" bandtap="navToMap">查看地图</view> -->
 			</view>
 			<view class="pickup-info padding-top20"> 
-				<view class="pickup-time">24小时内等待取货码短信</view>
+				<!-- <view class="pickup-time">12小时内等待取货码短信</view> -->
 			</view>
 		</view>
 	</view>
 	<view class="goods-lists">
 		<view wx:for="{{goodsList}}" wx:for-item="goods" wx:key="goods" class="goods-list" wx:if="{{goods.fold}}" wx:if="{{!fold || index < 3}}">
-			<view class="goods-name">{{goods.name}}</view>
+			<view class="goods-name">{{goods.name}}<text wx:if="{{goods.unit != null}}">({{goods.unit}})</text></view>
 			<view class="goods-amount">x{{goods.number}}</view>
 			<view class="goods-price">￥{{goods.price}}</view>
 		</view>
@@ -53,12 +53,15 @@
 			<view class="pre-money">-{{pre.discountMoney}}</view>
 		</view>
     <view class="tip">{{tip}}</view>
+    <view class="full-decrement">满减商品合计￥{{fullDecrement}}元</view>
 		<view class="sum">
-			<view class="sum-of-pre">已优惠￥{{discountMoney}}</view>
+			<view class="sum-of-pre">已优惠-￥{{discountMoney}}</view>
+      <view class="sum-of-money" wx:if="{{sendCost > 0}}">上楼费+￥{{sendCost}}</view>
 			<view class="sum-of-money">小计<view class="sum-of-money-text">￥{{sumOfMoney}}</view></view>
 		</view>
 	</view>
 	<view class="remarks">
+    <view class="remark-tip pay-way">{{tips}}</view>
 		<view class="pay-way">
 			<view class="pay-way-text">支付方式</view>
 			<view class="pay-way-text">在线支付</view>

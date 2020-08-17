@@ -10,7 +10,8 @@ Page({
     isLogin: false,
     menus: [{name: '我的地址', img: '/images/address.png', url: '/pages/address/address', needLogin: true},
      {name: '店铺简介', img: '/images/brief.png', url: '/pages/ucenter/shopInfo/shopInfo', needLogin: false},
-     {name: '领券中心', img: '/images/coupon.png', url: '/pages/ucenter/coupon/coupon', needLogin: true}]
+     {name: '领券中心', img: '/images/coupon.png', url: '/pages/ucenter/coupon/coupon', needLogin: true},
+      /*{ name: '汉王微服务', img: '/images/coupon.png', url: '/pages/ucenter/service/service', needLogin: false }*/]
      //   { name: '我的余额', img: '/images/wallet.png', url: '/pages/ucenter/balance/balance', needLogin: true }
   },
   /**点击进入菜单详情*/
@@ -40,9 +41,6 @@ Page({
           })
         }
       })
-      // wx.navigateTo({
-      //   url: '../../pages/auth/accountLogin/accountLogin'
-      // })
     } else {
       wx.navigateTo({
         url: url
@@ -124,6 +122,7 @@ Page({
     let that = this
     let userInfo = app.globalData.userInfo || null
     let isLogin = that.data.isLogin
+    console.log(userInfo)
     console.log(!!userInfo)
     if (!!userInfo) {
       that.setData({
