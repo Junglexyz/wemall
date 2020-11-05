@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-    <!-- 查询和其他操作 -->
+    <!--  查询和其他操作  -->
     <div class="filter-container">
       <el-input v-model="listQuery.username" clearable class="filter-item" style="width: 200px;" placeholder="请输入管理员名称"/>
       <el-button v-permission="['GET /admin/admin/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
