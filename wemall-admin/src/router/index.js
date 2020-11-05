@@ -83,7 +83,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'noredirect',
     alwaysShow: true,
-    name: 'msrManage',
+    name: 'goodsManage',
     meta: {
       title: '商品管理',
       icon: 'chart'
@@ -92,7 +92,7 @@ export const asyncRouterMap = [
       {
         path: 'list',
         component: () => import('@/views/goods/list'),
-        name: 'list',
+        name: 'goodsList',
         meta: {
           title: '商品列表',
           noCache: true
@@ -101,22 +101,22 @@ export const asyncRouterMap = [
       {
         path: 'create',
         component: () => import('@/views/goods/create'),
-        name: 'create',
+        name: 'goodsCreate',
         meta: {
           perms: ['GET /admin/brand/list', 'POST /admin/brand/create', 'GET /admin/brand/read', 'POST /admin/brand/update', 'POST /admin/brand/delete'],
           title: '商品上架',
           noCache: true
-        } 
+        }
       },
       {
         path: 'category',
         component: () => import('@/views/goods/category'),
-        name: 'category',
+        name: 'GoodsCategory',
         meta: {
           perms: ['GET /admin/brand/list', 'POST /admin/brand/create', 'GET /admin/brand/read', 'POST /admin/brand/update', 'POST /admin/brand/delete'],
           title: '类目管理',
           noCache: true
-        } 
+        }
       }
     ]
   },
@@ -125,18 +125,27 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'noredirect',
     alwaysShow: true,
-    name: 'order',
+    name: 'orderManage',
     meta: {
       title: '订单管理',
       icon: 'chart'
     },
     children: [
       {
-        path: 'record',
+        path: 'list',
         component: () => import('@/views/order/list'),
-        name: 'record',
+        name: 'orderList',
         meta: {
           title: '订单列表',
+          noCache: true
+        }
+      },
+      {
+        path: 'sum',
+        component: () => import('@/views/order/sum'),
+        name: 'orderSum',
+        meta: {
+          title: '订单汇总',
           noCache: true
         }
       }
@@ -147,7 +156,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'noredirect',
     alwaysShow: true,
-    name: 'marketing',
+    name: 'marketingManage',
     meta: {
       title: '营销中心',
       icon: 'chart'
@@ -156,18 +165,27 @@ export const asyncRouterMap = [
       {
         path: 'list',
         component: () => import('@/views/marketing/list'),
-        name: 'list',
+        name: 'marketingList',
         meta: {
           title: '优惠券管理',
           noCache: true
         }
-      }, 
+      },
       {
         path: 'ad',
         component: () => import('@/views/marketing/ad'),
-        name: 'ad',
+        name: 'marketingAd',
         meta: {
           title: '广告管理',
+          noCache: true
+        }
+      },
+      {
+        path: 'award',
+        component: () => import('@/views/marketing/award'),
+        name: 'marketingWard',
+        meta: {
+          title: '抽奖活动',
           noCache: true
         }
       }
@@ -178,16 +196,16 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'noredirect',
     alwaysShow: true,
-    name: 'marketing',
+    name: 'sysManage',
     meta: {
       title: '系统管理',
       icon: 'chart'
     },
     children: [
       {
-        path: 'list',
+        path: 'sys',
         component: () => import('@/views/sys/shop'),
-        name: 'list',
+        name: 'sys',
         meta: {
           title: '店铺信息',
           noCache: true

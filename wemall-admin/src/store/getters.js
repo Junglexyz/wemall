@@ -1,4 +1,5 @@
 const getters = {
+  exportPath: state => state.app.exportPath,
   storagePath: state => state.app.storagePath,
   sidebar: state => state.app.sidebar,
   language: state => state.app.language,

@@ -21,9 +21,8 @@
     ]
   },
   "dependencies": {
-    "@tinymce/tinymce-vue": "1.1.0",
     "@riophae/vue-treeselect": "0.0.37",
-    "v-charts": "1.19.0",
+    "@tinymce/tinymce-vue": "1.1.0",
     "axios": ">=0.18.1",
     "clipboard": "1.7.1",
     "connect": "3.6.6",
@@ -36,8 +35,11 @@
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "screenfull": "3.3.3",
+    "v-charts": "1.19.0",
     "vue": "2.5.17",
     "vue-count-to": "1.0.13",
+    "vue-picture-preview": "^2.0.1",
+    "vue-picture-preview-extend": "^1.0.3",
     "vue-router": "3.0.1",
     "vuex": "3.0.1",
     "xlsx": "^0.11.16"
@@ -93,6 +95,7 @@
     "vue-style-loader": "4.1.2",
     "vue-template-compiler": "2.5.17",
     "webpack": "4.16.5",
+    "webpack-bundle-analyzer": "3.7.0",
     "webpack-cli": "3.1.0",
     "webpack-dev-server": "3.1.14",
     "webpack-merge": "4.1.4"

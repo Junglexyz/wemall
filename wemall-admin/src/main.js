@@ -20,13 +20,17 @@ import * as filters from './filters' // global filters
 
 import permission from '@/directive/permission/index.js' // 权限判断指令
 
-import VueAMap from 'vue-amap'
-Vue.use(VueAMap)
-VueAMap.initAMapApiLoader({
-  key: '21d83316fd44ed551831584889ed1653',
-  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PlaceSearch', 'AMap.Geolocation', 'AMap.Geocoder'],
-  v: '1.4.4',
-  uiVersion: '1.0'})
+// import VueAMap from 'vue-amap'
+// Vue.use(VueAMap)
+// VueAMap.initAMapApiLoader({
+//   key: '21d83316fd44ed551831584889ed1653',
+//   plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PlaceSearch', 'AMap.Geolocation', 'AMap.Geocoder'],
+//   v: '1.4.4',
+//   uiVersion: '1.0'})
+// import gallery from 'img-vuer ' //图片预览
+// Vue.use(gallery)
+import vuePicturePreview from 'vue-picture-preview'
+Vue.use(vuePicturePreview)
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size

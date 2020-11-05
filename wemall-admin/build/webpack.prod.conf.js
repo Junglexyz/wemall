@@ -11,6 +11,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -41,6 +42,19 @@ const webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
+    }),
+    // new BundleAnalyzerPlugin(), // 使用默认配置
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server',
+      analyzerHost: '127.0.0.1',
+      analyzerPort: 8081,
+      reportFilename: 'report.html',
+      defaultSizes: 'parsed',
+      openAnalyzer: true,
+      generateStatsFile: false,
+      statsFilename: 'stats.json',
+      statsOptions: null,
+      logLevel: 'info'
     }),
     // extract css into its own file
     new MiniCssExtractPlugin({
@@ -168,7 +182,7 @@ if (config.build.generateAnalyzerReport || config.build.bundleAnalyzerReport) {
   if (config.build.bundleAnalyzerReport) {
     webpackConfig.plugins.push(
       new BundleAnalyzerPlugin({
-        analyzerPort: 8080,
+        analyzerPort: 8084,
         generateStatsFile: false
       })
     )

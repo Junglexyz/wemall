@@ -9,8 +9,10 @@ const app = {
     device: 'desktop',
     language: Cookies.get('language') || 'en',
     size: Cookies.get('size') || 'medium',
-    // storagePath: 'http://test-jungle.oss-cn-beijing.aliyuncs.com/'
-    storagePath: 'http://wemall-jungle.oss-cn-chengdu.aliyuncs.com/'
+    // storagePath: ''
+    storagePath: '',
+    // exportPath: 'http://localhost:8081/admin/'
+    exportPath: ''
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {

@@ -22,3 +22,11 @@ export function exportOrder() {
     method: 'get'
   })
 }
+
+export function sumOrder(data) {
+  return request({
+    url: '/order/sum',
+    method: 'post',
+    data: data
+  })
+}

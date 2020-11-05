@@ -3,57 +3,55 @@
     <el-card>
       <div class="general-header">
         <div>今日概览</div>
-        <div>更新时间: {{nowDate}}</div>
+        <div>更新时间: {{ nowDate }}</div>
       </div>
-      <el-card>
-        <el-date-picker
-          v-model="order.createTime"
-          type="datetime"
-          placeholder="开始日期时间">
-        </el-date-picker>
-        <el-date-picker
-            v-model="order.endTime"
-            type="datetime"
-            placeholder="结束日期时间">
-        </el-date-picker>
-        <el-button type="primary" @click="search">查看</el-button>
-      </el-card>
-      <div class="height"></div>
+      <!-- <el-card> -->
+      <el-date-picker
+        v-model="order.createTime"
+        type="datetime"
+        placeholder="开始日期时间"/>
+      <el-date-picker
+        v-model="order.endTime"
+        type="datetime"
+        placeholder="结束日期时间"/>
+      <el-button type="primary" @click="search">查看</el-button>
+      <!-- </el-card> -->
+      <div class="height"/>
       <el-row :gutter="20">
-       <el-col :span="6" class="total-col order">
+        <el-col :span="6" class="total-col order">
           <div class="">订单数量</div>
-          <div>{{today.totalOrder}}</div>
+          <div>{{ today.totalOrder }}</div>
         </el-col>
         <el-col :span="6" class="total-col sell">
           <div class="">销售总额</div>
-          <div>{{today.totalSales}}</div>
+          <div>{{ today.totalSales }}</div>
         </el-col>
       </el-row>
     </el-card>
 
     <el-card>
-    	<div class="general-header">
-    		<div>店铺概况</div>
-    		<div>更新时间: {{nowDate}}</div>
-    	</div>
-    	<el-row :gutter="20">
-  		  <el-col :span="6" class="total-col user">
-  		  	<div class="">用户数量</div>
-  		  	<div>{{userTotal}}</div>
-  		  </el-col>
-  		  <el-col :span="6" class="total-col goods">
-  		  	<div class="">商品数量</div>
-  		  	<div>{{goodsTotal}}</div>
-  		  </el-col>
-  		  <el-col :span="6" class="total-col order">
-  		  	<div class="">订单数量</div>
-  		  	<div>{{orderTotal}}</div>
-  		  </el-col>
-  		  <el-col :span="6" class="total-col sell">
-  		  	<div class="">销售总额</div>
-  		  	<div>{{salesTotal}}</div>
-  		  </el-col>
-  		</el-row>
+      <div class="general-header">
+        <div>店铺概况</div>
+        <div>更新时间: {{ nowDate }}</div>
+      </div>
+      <el-row :gutter="20">
+        <el-col :span="6" class="total-col user">
+          <div class="">用户数量</div>
+          <div>{{ userTotal }}</div>
+        </el-col>
+        <el-col :span="6" class="total-col goods">
+          <div class="">商品数量</div>
+          <div>{{ goodsTotal }}</div>
+        </el-col>
+        <el-col :span="6" class="total-col order">
+          <div class="">订单数量</div>
+          <div>{{ orderTotal }}</div>
+        </el-col>
+        <el-col :span="6" class="total-col sell">
+          <div class="">销售总额</div>
+          <div>{{ salesTotal }}</div>
+        </el-col>
+      </el-row>
     </el-card>
   </div>
 </template>
@@ -116,9 +114,8 @@
   }
 </style>
 
-
 <script>
-import { info,todayInfo } from '@/api/dashboard'
+import { info, todayInfo } from '@/api/dashboard'
 export default {
   components: {
   },
@@ -131,7 +128,7 @@ export default {
       nowDate: '',
       today: {
         totalSales: 0,
-        totalOrder: 0,
+        totalOrder: 0
       },
       order: {}
     }
@@ -141,10 +138,10 @@ export default {
     this.todayInfo()
   },
   methods: {
-  	getInfo(){
-      let params = {}
-      let now = new Date()
-      params.createTime = this.formatTime(new Date(now.getFullYear(),now.getMonth()-3,now.getDate(),0,0,0))
+  	getInfo() {
+      const params = {}
+      const now = new Date()
+      params.createTime = this.formatTime(new Date(now.getFullYear(), now.getMonth() - 3, now.getDate(), 0, 0, 0))
       params.endTime = this.formatTime(now)
       this.nowDate = this.formatTime(now)
       console.log(params)
@@ -155,29 +152,29 @@ export default {
 	      this.salesTotal = response.data.result.salesTotal
 	    })
   	},
-    todayInfo(){
-      let params = {}
-      let now = new Date()
-      params.createTime = this.formatTime(new Date(now.getFullYear(),now.getMonth(),now.getDate(),0,0,0))
+    todayInfo() {
+      const params = {}
+      const now = new Date()
+      params.createTime = this.formatTime(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0))
       params.endTime = this.formatTime(now)
       console.log(params)
       todayInfo(params).then(response => {
         console.log(response)
-        let data = response.data
-        if(data.errno == 0){
+        const data = response.data
+        if (data.errno == 0) {
           this.today = data.result
         }
       })
     },
-    search(){
-      let params = {}
+    search() {
+      const params = {}
       params.createTime = this.formatTime(this.order.createTime)
       params.endTime = this.formatTime(this.order.endTime)
       console.log(params)
       todayInfo(params).then(response => {
         console.log(response)
-        let data = response.data
-        if(data.errno == 0){
+        const data = response.data
+        if (data.errno == 0) {
           this.today = data.result
         }
       })
@@ -185,18 +182,18 @@ export default {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
     },
-    formatTime(date){
-    console.log(date)
-		const year = date.getFullYear()
-		const month = date.getMonth() + 1
-		const day = date.getDate()
-		const hour = date.getHours()
-		const minute = date.getMinutes()
-		const second = date.getSeconds()
+    formatTime(date) {
+      console.log(date)
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      const hour = date.getHours()
+      const minute = date.getMinutes()
+      const second = date.getSeconds()
 	    return [year, month, day].map(this.formatNumber).join('-') + ' ' + [hour, minute, second].map(this.formatNumber).join(':')
 	  },
 
-	  formatNumber (n) {
+	  formatNumber(n) {
 		  n = n.toString()
 		  return n[1] ? n : '0' + n
 	  }

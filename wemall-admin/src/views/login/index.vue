@@ -23,7 +23,7 @@
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
-      <div style="position:relative">
+      <!-- <div style="position:relative">
         <div class="tips">
           <span> 超级管理员用户名: admin123</span>
           <span> 超级管理员用户名：admin123</span>
@@ -36,7 +36,7 @@
           <span> 推广管理员用户名: promotion123</span>
           <span> 推广管理员用户名：promotion123</span>
         </div>
-      </div>
+      </div> -->
     </el-form>
 
   </div>
@@ -76,7 +76,6 @@ export default {
       },
       immediate: true
     }
-
   },
   created() {
     // window.addEventListener('hashchange', this.afterQRScan)
@@ -99,7 +98,7 @@ export default {
           this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
             console.log(this.redirect)
             this.loading = false
-            this.$router.push({ path: '/user/user' || '/' })
+            this.$router.push({ path: this.redirect || '/' })
           }).catch(err => {
             console.log(err)
             this.$notify.error({
