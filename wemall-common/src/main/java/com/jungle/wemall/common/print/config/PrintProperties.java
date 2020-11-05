@@ -4,9 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @description: 易联云打印机配置
- * @author: jungle
- * @date: 2020-03-21 18:32
+ * @description 易联云打印机配置
+ * @author jungle
+ * @date 2020-03-21 18:32
  */
 @Configuration
 @ConfigurationProperties(prefix = "wemall.print")
