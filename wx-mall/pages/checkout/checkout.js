@@ -302,7 +302,7 @@ Page({
     wx.requestSubscribeMessage({
       tmplIds: app.globalData.tmplIds,
       success(subscribeRes) {
-        if (true){
+        if (subscribeRes['r3z_88IXEvYIBcYvGizFH8Z7KgBZhEOX8KqqxDSKSf0'] == 'accept' && subscribeRes['IhX6Zo8c8zsC56j_MxtHX3HeAHwruceTywI7UV2_jLI'] == 'accept'){
 
           // wx.showModal({
           //   title: '确定下单？',
